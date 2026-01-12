@@ -15,9 +15,12 @@ namespace PerpustakaanAppMVC
         [STAThread]
         static void Main()
         {
+
+            DbInit.Initialize();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-             Application.Run(new FrmMahasiswa());
+            Application.Run(new FrmMain());
         }
     }
 }

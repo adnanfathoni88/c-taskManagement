@@ -29,7 +29,7 @@ namespace PerpustakaanAppMVC.Model.Context
             {
                 // atur ulang lokasi database yang disesuaikan dengan
                 // lokasi database perpustakaan Anda
-                string dbName = @"D:\02_CODING\C#\LibraryApp\PerpustakaanAppMVC\Database\DbPerpustakaan.db";
+                string dbName = @"D:\02_CODING\C#\TaskManagementApp\Database\DbPerpustakaan.db";
                 // deklarasi variabel connectionString, ref: https://www.connectionstrings.com/
                 string connectionString = string.Format("Data Source ={0}; FailIfMissing = True", dbName);
                 conn = new SQLiteConnection(connectionString); // buat objekconnection
