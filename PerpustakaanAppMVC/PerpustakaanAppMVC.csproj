@@ -81,18 +81,6 @@
     <Compile Include="View\Dashboard\UcDashboard.Designer.cs">
       <DependentUpon>UcDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FrmEntryMahasiswa.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FrmEntryMahasiswa.Designer.cs">
-      <DependentUpon>FrmEntryMahasiswa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FrmMahasiswa.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FrmMahasiswa.Designer.cs">
-      <DependentUpon>FrmMahasiswa.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,12 +141,6 @@
     </Compile>
     <EmbeddedResource Include="View\Dashboard\UcDashboard.resx">
       <DependentUpon>UcDashboard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FrmEntryMahasiswa.resx">
-      <DependentUpon>FrmEntryMahasiswa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FrmMahasiswa.resx">
-      <DependentUpon>FrmMahasiswa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

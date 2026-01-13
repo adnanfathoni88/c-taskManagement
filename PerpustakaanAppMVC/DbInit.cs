@@ -31,8 +31,8 @@ public static class DbInit
         {
             cmd.CommandText = @"
             CREATE TABLE IF NOT EXISTS Roles (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Name TEXT NOT NULL UNIQUE
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE
             );";
             cmd.ExecuteNonQuery();
         }
@@ -44,13 +44,13 @@ public static class DbInit
         {
             cmd.CommandText = @"
             CREATE TABLE IF NOT EXISTS Users (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Name TEXT NOT NULL,
-                Email TEXT NOT NULL UNIQUE,
-                Password TEXT NOT NULL,
-                Status INTEGER NOT NULL,
-                RoleId INTEGER NOT NULL,
-                FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                password TEXT NOT NULL,
+                status INTEGER NOT NULL,
+                role_id INTEGER NOT NULL,
+                FOREIGN KEY (role_id) REFERENCES Roles(Id)
             );";
             cmd.ExecuteNonQuery();
         }
@@ -78,7 +78,7 @@ public static class DbInit
         using (var cmd = context.Conn.CreateCommand())
         {
             cmd.CommandText = @"
-            INSERT OR IGNORE INTO Roles (Name) VALUES
+            INSERT OR IGNORE INTO Roles (name) VALUES
             ('Admin'),
             ('User');
             ";
