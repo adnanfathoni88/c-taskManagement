@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panelCard = new System.Windows.Forms.Panel();
-            this.lvProject = new System.Windows.Forms.ListView();
+            this.dgvProject = new System.Windows.Forms.DataGridView();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnHapus = new System.Windows.Forms.Button();
             this.btnTambah = new System.Windows.Forms.Button();
@@ -41,7 +41,7 @@
             // panelCard
             //
             this.panelCard.BackColor = System.Drawing.Color.White;
-            this.panelCard.Controls.Add(this.lvProject);
+            this.panelCard.Controls.Add(this.dgvProject);
             this.panelCard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCard.Location = new System.Drawing.Point(10, 50);
             this.panelCard.Name = "panelCard";
@@ -49,18 +49,21 @@
             this.panelCard.Size = new System.Drawing.Size(523, 317);
             this.panelCard.TabIndex = 7;
             //
-            // lvProject
+            // dgvProject
             //
-            this.lvProject.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvProject.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvProject.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lvProject.FullRowSelect = true;
-            this.lvProject.HideSelection = false;
-            this.lvProject.Location = new System.Drawing.Point(15, 15);
-            this.lvProject.Name = "lvProject";
-            this.lvProject.Size = new System.Drawing.Size(493, 287);
-            this.lvProject.TabIndex = 0;
-            this.lvProject.UseCompatibleStateImageBehavior = false;
+            this.dgvProject.AllowUserToAddRows = false;
+            this.dgvProject.AllowUserToDeleteRows = false;
+            this.dgvProject.BackgroundColor = System.Drawing.Color.White;
+            this.dgvProject.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvProject.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProject.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProject.Location = new System.Drawing.Point(15, 15);
+            this.dgvProject.Name = "dgvProject";
+            this.dgvProject.ReadOnly = true;
+            this.dgvProject.RowHeadersVisible = false;
+            this.dgvProject.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProject.Size = new System.Drawing.Size(493, 287);
+            this.dgvProject.TabIndex = 0;
             //
             // btnEdit
             //
@@ -134,7 +137,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panelCard;
-        private System.Windows.Forms.ListView lvProject;
+        private System.Windows.Forms.DataGridView dgvProject;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnHapus;
         private System.Windows.Forms.Button btnTambah;
