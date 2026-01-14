@@ -61,6 +61,7 @@
             this.dgvTask.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTask.Location = new System.Drawing.Point(0, 51);
             this.dgvTask.Name = "dgvTask";
+            this.dgvTask.RowHeadersVisible = false;
             this.dgvTask.RowHeadersWidth = 51;
             this.dgvTask.Size = new System.Drawing.Size(541, 338);
             this.dgvTask.TabIndex = 1;

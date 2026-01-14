@@ -60,6 +60,8 @@
             this.dgvRole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRole.Location = new System.Drawing.Point(15, 15);
             this.dgvRole.Name = "dgvRole";
+            this.dgvRole.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgvRole.RowHeadersVisible = false;
             this.dgvRole.RowHeadersWidth = 51;
             this.dgvRole.Size = new System.Drawing.Size(493, 289);
             this.dgvRole.TabIndex = 0;
@@ -76,7 +78,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.97015F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 30);
+            this.label1.Size = new System.Drawing.Size(74, 31);
             this.label1.TabIndex = 4;
             this.label1.Text = "Role";
             // 
@@ -84,8 +86,8 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.09369F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.63671F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.56596F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.16444F));
             this.tableLayoutPanel1.Controls.Add(this.btnTambah, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -94,7 +96,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(523, 38);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
@@ -105,9 +107,9 @@
             this.btnTambah.FlatAppearance.BorderSize = 0;
             this.btnTambah.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTambah.ForeColor = System.Drawing.Color.White;
-            this.btnTambah.Location = new System.Drawing.Point(370, 3);
+            this.btnTambah.Location = new System.Drawing.Point(430, 3);
             this.btnTambah.Name = "btnTambah";
-            this.btnTambah.Size = new System.Drawing.Size(150, 32);
+            this.btnTambah.Size = new System.Drawing.Size(90, 32);
             this.btnTambah.TabIndex = 3;
             this.btnTambah.Text = "Tambah";
             this.btnTambah.UseVisualStyleBackColor = false;

@@ -1,4 +1,5 @@
-﻿using PerpustakaanAppMVC.View.Dashboard;
+﻿using PerpustakaanAppMVC.Session;
+using PerpustakaanAppMVC.View.Dashboard;
 using PerpustakaanAppMVC.View.ProjectView;
 using PerpustakaanAppMVC.View.RoleView;
 using PerpustakaanAppMVC.View.TaskViewMain;
@@ -17,29 +18,47 @@ namespace PerpustakaanAppMVC.View
 {
     public partial class FrmMain : Form
     {
-        private Button _activeButton = null;
+        List<string> menus = new List<string>(); // list menu
+
+        private Dictionary<string, Image> menuIcons; // icon menu
 
         public FrmMain()
         {
+            string userRole = SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
-            InitializeCustomComponents();
+            InitializeMenuIcons();
+            InitializeMenu(userRole);
         }
 
-        private void InitializeCustomComponents()
+        private void InitializeMenu(string userLogin)
         {
-            // Set initial active button (Dashboard)
-            _activeButton = btnDashboard;
-            HighlightActiveButton(_activeButton);
+            switch (userLogin)
+            {
+                case "Admin":
+                    menus = new List<string> { "Dashboard", "Role", "User", "Project" };
+                    break;
+                case "Project Manager":
+                case "Developer":
+                case "Tester":
+                case "Viewer":
+                    menus = new List<string> { "Dashboard", "Project" };
+                    break;
+                default:
+                    menus = new List<string> { "Dashboard" };
+                    break;
+            }
+        }
 
-            // Add hover event handlers programmatically
-            btnDashboard.MouseEnter += Button_MouseEnter;
-            btnDashboard.MouseLeave += Button_MouseLeave;
-            btnRole.MouseEnter += Button_MouseEnter;
-            btnRole.MouseLeave += Button_MouseLeave;
-            btnUser.MouseEnter += Button_MouseEnter;
-            btnUser.MouseLeave += Button_MouseLeave;
-            btnProject.MouseEnter += Button_MouseEnter;
-            btnProject.MouseLeave += Button_MouseLeave;
+        private void InitializeMenuIcons()
+        {
+            menuIcons = new Dictionary<string, Image>
+            {
+                { "Dashboard", Properties.Resources.grid },
+                { "Role", Properties.Resources.role},
+                { "User", Properties.Resources.user},
+                { "Project", Properties.Resources.project}
+            };
         }
 
         private void LoadUserControl(UserControl uc)
@@ -49,67 +68,19 @@ namespace PerpustakaanAppMVC.View
             this.panelContent.Controls.Add(uc);
         }
 
-        private void HighlightActiveButton(Button button)
-        {
-            // Reset all buttons to default style
-            btnDashboard.BackColor = Color.Transparent;
-            btnRole.BackColor = Color.Transparent;
-            btnUser.BackColor = Color.Transparent;
-            btnProject.BackColor = Color.Transparent;
-            //btnTask.BackColor = Color.Transparent;
-
-            // Apply active style to the selected button
-            if (button != null)
-            {
-                // Create a semi-transparent white brush (30% opacity)
-                button.BackColor = Color.FromArgb(77, 255, 255, 255); // ARGB: A=77 (30% opacity), RGB=white
-            }
-        }
-
-        private void Button_MouseEnter(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            if (button != null && button != _activeButton)
-            {
-                // Make button slightly more opaque on hover (40% opacity)
-                button.BackColor = Color.FromArgb(102, 255, 255, 255); // 40% opacity when hovered
-            }
-        }
-
-        private void Button_MouseLeave(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            if (button != null && button != _activeButton)
-            {
-                // Return to transparent when not hovered (unless it's the active button)
-                button.BackColor = Color.Transparent;
-            }
-            else if (button != null && button == _activeButton)
-            {
-                // If it's the active button, restore its active state
-                button.BackColor = Color.FromArgb(77, 255, 255, 255); // 30% opacity for active
-            }
-        }
-
         private void btnDashboard_Click(object sender, EventArgs e)
         {
             LoadUserControl(new UcDashboard());
-            _activeButton = btnDashboard;
-            HighlightActiveButton(_activeButton);
         }
 
         private void btnRole_Click(object sender, EventArgs e)
         {
             LoadUserControl(new UcRole1());
-            _activeButton = btnRole;
-            HighlightActiveButton(_activeButton);
         }
 
         private void btnUser_Click(object sender, EventArgs e)
         {
             LoadUserControl(new UcUser());
-            _activeButton = btnUser;
-            HighlightActiveButton(_activeButton);
         }
 
         private void btnProject_Click(object sender, EventArgs e)
@@ -117,14 +88,76 @@ namespace PerpustakaanAppMVC.View
             var projectControl = new UcProject();
             projectControl.LoadTaskViewRequested += OnLoadTaskViewRequested;
             LoadUserControl(projectControl);
-            _activeButton = btnProject;
-            HighlightActiveButton(_activeButton);
         }
 
         private void OnLoadTaskViewRequested(int projectId, string projectName)
         {
-            // Load the UcTask control with the specific project
             LoadUserControl(new UcTask(projectId, projectName));
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            foreach (var item in menus)
+            {
+                Button btn = new Button();
+                btn.Text = $"  {item}";
+                btn.Size = new Size(220, 45);
+                btn.Padding = new Padding(12, 0, 10, 0);
+                btn.Margin = new Padding(0, 5, 0, 0);
+
+                btn.Tag = item;
+
+                if (menuIcons.ContainsKey(item))
+                    btn.Image = new Bitmap(menuIcons[item], new Size(16, 16));
+
+                btn.ImageAlign = ContentAlignment.MiddleLeft;
+                btn.TextAlign = ContentAlignment.MiddleRight;
+                btn.TextImageRelation = TextImageRelation.ImageBeforeText;
+
+                btn.UseVisualStyleBackColor = false;
+
+                // Ganti warna default
+                btn.BackColor = ColorTranslator.FromHtml("#3C467B");
+                btn.ForeColor = Color.White;
+
+                // Ganti warna hover
+                btn.MouseEnter += (sender2, args) => btn.BackColor = ColorTranslator.FromHtml("#5A6090"); // lebih terang sedikit
+                btn.MouseLeave += (sender2, args) => btn.BackColor = ColorTranslator.FromHtml("#3C467B"); // kembali ke default
+
+
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 0;
+
+                btn.Click += TaskButton_Click;
+
+                flowSidebar.Controls.Add(btn);
+            }
+        }
+        private void TaskButton_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            string menuName = btn.Tag.ToString();
+
+            switch (menuName)
+            {
+                case "Dashboard":
+                    LoadUserControl(new UcDashboard());
+                    break;
+                case "Role":
+                    LoadUserControl(new UcRole1());
+                    break;
+                case "User":
+                    LoadUserControl(new UcUser());
+                    break;
+                case "Project":
+                    var projectControl = new UcProject();
+                    projectControl.LoadTaskViewRequested += OnLoadTaskViewRequested;
+                    LoadUserControl(projectControl);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

@@ -99,5 +99,33 @@ namespace PerpustakaanAppMVC.Controller
             }
 
         }
+
+        public User Login(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException("Email is required");
+            }
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException("Password is required");
+            }
+
+            using (var context = new DbContext())
+            {
+                var _repo = new UserRepository(context);
+                var users = _repo.ReadAll();
+
+                // Find user by email
+                var user = users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+
+                if (user != null && user.Password.Equals(password)) // Simple password comparison (in production, use hashed passwords)
+                {
+                    return user;
+                }
+
+                return null; // Invalid credentials
+            }
+        }
     }
 }

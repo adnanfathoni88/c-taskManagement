@@ -39,7 +39,7 @@ namespace PerpustakaanAppMVC.View.RoleView
             var noColumn = new DataGridViewTextBoxColumn();
             noColumn.Name = "No";
             noColumn.HeaderText = "No";
-            noColumn.DataPropertyName = "No";
+            // Don't set DataPropertyName, we'll set the value manually
             noColumn.FillWeight = 1; // Take small portion of available space
             dgvRole.Columns.Add(noColumn);
 

@@ -31,166 +31,65 @@ namespace PerpustakaanAppMVC.View
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.panelSidebar = new System.Windows.Forms.Panel();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.flowSidebar = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelLogo = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnDashboard = new System.Windows.Forms.Button();
-            this.btnRole = new System.Windows.Forms.Button();
-            this.btnUser = new System.Windows.Forms.Button();
-            this.btnProject = new System.Windows.Forms.Button();
             this.panelContent = new System.Windows.Forms.Panel();
             this.panelSidebar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelSidebar
             // 
-            this.panelSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
-            this.panelSidebar.Controls.Add(this.pictureBox5);
-            this.panelSidebar.Controls.Add(this.pictureBox4);
-            this.panelSidebar.Controls.Add(this.pictureBox3);
-            this.panelSidebar.Controls.Add(this.pictureBox2);
-            this.panelSidebar.Controls.Add(this.pictureBox1);
-            this.panelSidebar.Controls.Add(this.btnDashboard);
-            this.panelSidebar.Controls.Add(this.btnRole);
-            this.panelSidebar.Controls.Add(this.btnUser);
-            this.panelSidebar.Controls.Add(this.btnProject);
+            this.panelSidebar.Controls.Add(this.flowSidebar);
+            this.panelSidebar.Controls.Add(this.panelLogo);
             this.panelSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelSidebar.Location = new System.Drawing.Point(0, 0);
             this.panelSidebar.Name = "panelSidebar";
-            this.panelSidebar.Size = new System.Drawing.Size(200, 450);
-            this.panelSidebar.TabIndex = 0;
+            this.panelSidebar.Size = new System.Drawing.Size(240, 450);
+            this.panelSidebar.TabIndex = 2;
             // 
-            // pictureBox5
+            // flowSidebar
             // 
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(3, 10);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(191, 70);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 7;
-            this.pictureBox5.TabStop = false;
+            this.flowSidebar.AutoScroll = true;
+            this.flowSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
+            this.flowSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowSidebar.Location = new System.Drawing.Point(0, 70);
+            this.flowSidebar.Name = "flowSidebar";
+            this.flowSidebar.Size = new System.Drawing.Size(240, 380);
+            this.flowSidebar.TabIndex = 6;
             // 
-            // pictureBox4
+            // panelLogo
             // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(20, 103);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 6;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(20, 155);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 5;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(20, 202);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
+            this.panelLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
+            this.panelLogo.Controls.Add(this.pictureBox1);
+            this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelLogo.Location = new System.Drawing.Point(0, 0);
+            this.panelLogo.Name = "panelLogo";
+            this.panelLogo.Size = new System.Drawing.Size(240, 70);
+            this.panelLogo.TabIndex = 0;
+            this.panelLogo.Padding = new Padding(0, 14, 0, 0);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(20, 252);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox1.Image = global::PerpustakaanAppMVC.Properties.Resources.logo;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.Size = new System.Drawing.Size(240, 100);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // btnDashboard
-            // 
-            this.btnDashboard.FlatAppearance.BorderSize = 0;
-            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDashboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDashboard.ForeColor = System.Drawing.Color.White;
-            this.btnDashboard.Location = new System.Drawing.Point(3, 96);
-            this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this.btnDashboard.Size = new System.Drawing.Size(194, 43);
-            this.btnDashboard.TabIndex = 1;
-            this.btnDashboard.Text = "Dashboard";
-            this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDashboard.UseVisualStyleBackColor = true;
-            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
-            // 
-            // btnRole
-            // 
-            this.btnRole.FlatAppearance.BorderSize = 0;
-            this.btnRole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRole.ForeColor = System.Drawing.Color.White;
-            this.btnRole.Location = new System.Drawing.Point(3, 145);
-            this.btnRole.Name = "btnRole";
-            this.btnRole.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this.btnRole.Size = new System.Drawing.Size(194, 43);
-            this.btnRole.TabIndex = 0;
-            this.btnRole.Text = "Role";
-            this.btnRole.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRole.UseVisualStyleBackColor = true;
-            this.btnRole.Click += new System.EventHandler(this.btnRole_Click);
-            // 
-            // btnUser
-            // 
-            this.btnUser.FlatAppearance.BorderSize = 0;
-            this.btnUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUser.ForeColor = System.Drawing.Color.White;
-            this.btnUser.Location = new System.Drawing.Point(3, 194);
-            this.btnUser.Name = "btnUser";
-            this.btnUser.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this.btnUser.Size = new System.Drawing.Size(194, 43);
-            this.btnUser.TabIndex = 2;
-            this.btnUser.Text = "User";
-            this.btnUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUser.UseVisualStyleBackColor = true;
-            this.btnUser.Click += new System.EventHandler(this.btnUser_Click);
-            // 
-            // btnProject
-            // 
-            this.btnProject.FlatAppearance.BorderSize = 0;
-            this.btnProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProject.ForeColor = System.Drawing.Color.White;
-            this.btnProject.Location = new System.Drawing.Point(3, 243);
-            this.btnProject.Name = "btnProject";
-            this.btnProject.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this.btnProject.Size = new System.Drawing.Size(194, 43);
-            this.btnProject.TabIndex = 3;
-            this.btnProject.Text = "Project";
-            this.btnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnProject.UseVisualStyleBackColor = true;
-            this.btnProject.Click += new System.EventHandler(this.btnProject_Click);
-            //
             // panelContent
-            //
+            // 
             this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(200, 0);
+            this.panelContent.Location = new System.Drawing.Point(240, 0);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(600, 450);
-            this.panelContent.TabIndex = 1;
+            this.panelContent.Size = new System.Drawing.Size(560, 450);
+            this.panelContent.TabIndex = 3;
             // 
             // FrmMain
             // 
@@ -202,28 +101,19 @@ namespace PerpustakaanAppMVC.View
             this.Controls.Add(this.panelSidebar);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panelSidebar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panelSidebar;
-        private System.Windows.Forms.Button btnDashboard;
-        private System.Windows.Forms.Button btnRole;
-        private System.Windows.Forms.Button btnUser;
-        private Button btnProject;
+        private Panel panelSidebar;
         private Panel panelContent;
+        private Panel panelLogo;
+        private FlowLayoutPanel flowSidebar;
         private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox5;
     }
 }

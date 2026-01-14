@@ -123,9 +123,12 @@ public static class DbInit
         using (var cmd = context.Conn.CreateCommand())
         {
             cmd.CommandText = @"
-            INSERT OR IGNORE INTO Roles (name) VALUES
-            ('Admin'),
-            ('User');
+            INSERT OR IGNORE INTO Roles (id, name) VALUES
+            (1, 'Admin'),
+            (2, 'Project Manager'),
+            (3, 'Developer'),
+            (4, 'Tester'),
+            (5, 'Viewer');
             ";
             cmd.ExecuteNonQuery();
         }
@@ -137,9 +140,9 @@ public static class DbInit
         {
             cmd.CommandText = @"
             INSERT OR REPLACE INTO Users (id, name, email, password, status, role_id) VALUES
-            (1, 'Admin User', 'admin@example.com', 'password123', 1, 1),
-            (2, 'John Doe', 'john@example.com', 'password123', 1, 2),
-            (3, 'Jane Smith', 'jane@example.com', 'password123', 1, 2);
+            (1, 'Admin', 'admin@gmail.com', 'admin123', 1, 1),
+            (2, 'Dev1', 'dev@gmail.com', 'dev123', 1, 3), 
+            (3, 'Tester2', 'tester@gmail.com', 'tester123', 1, 3);
             ";
             cmd.ExecuteNonQuery();
         }
@@ -167,9 +170,7 @@ public static class DbInit
             INSERT OR REPLACE INTO Tasks (id, title, description, status, priority, project_id, assigned_to, deadline) VALUES
             (1, 'Design Homepage', 'Create homepage mockup', 'Pending', 'High', 1, 2, '2023-02-15'),
             (2, 'Setup Database', 'Configure database schema', 'In Progress', 'Medium', 1, 3, '2023-01-30'),
-            (3, 'API Integration', 'Integrate REST API', 'Completed', 'High', 2, 2, '2023-03-30'),
-            (4, 'UI Testing', 'Test user interface', 'Pending', 'Low', 2, 3, '2023-05-15');
-            ";
+            (3, 'API Integration', 'Integrate REST API', 'Completed', 'High', 2, 2, '2023-03-30')";
             cmd.ExecuteNonQuery();
         }
     }
