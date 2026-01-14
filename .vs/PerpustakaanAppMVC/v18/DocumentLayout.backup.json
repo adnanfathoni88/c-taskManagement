@@ -3,20 +3,12 @@
   "WorkspaceRootPath": "D:\\02_CODING\\C#\\TaskManagementApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,15 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FrmMain.Designer.cs",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAcwFAAAABDAAAAAAAAAA==",
+              "Title": "FrmMain.cs",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ViewState": "AgIAAH4AAAAALDMzMzPxv5cAAABmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T16:41:06.957Z",
+              "WhenOpened": "2026-01-14T18:03:47.838Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmMain.cs [Design]",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T17:50:39.016Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Bookmark",
@@ -48,65 +52,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmMain.cs",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "ViewState": "AgIAABcAAACwzMzMzCwwwBwAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T16:36:01.953Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FrmMain.cs [Design]",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T16:35:59.949Z",
-              "EditorCaption": " [Design]"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "41584d32-9eb6-4f39-8114-e5e53fb966ff",
-        "Display": 1,
-        "X": 128,
-        "Y": 0,
-        "Width": 1032,
-        "Height": 651,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Test.cs",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\Test.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\Test.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\Test.cs",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\Test.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAYwC0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T14:52:06.209Z",
-              "EditorCaption": ""
             }
           ]
         }

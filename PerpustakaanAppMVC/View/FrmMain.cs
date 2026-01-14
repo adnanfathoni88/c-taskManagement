@@ -29,8 +29,16 @@ namespace PerpustakaanAppMVC.View
             InitializeComponent();
             InitializeMenuIcons();
             InitializeMenu(userRole);
+            InitializeUserInfo();
         }
 
+        private void InitializeUserInfo()
+        {
+            lbName.Text = SessionManager.GetCurrentUserName();
+            lbRole.Text = SessionManager.GetCurrentUserRole();
+        }
+
+        // initialize menu berdasarkan role user
         private void InitializeMenu(string userLogin)
         {
             switch (userLogin)
@@ -50,6 +58,7 @@ namespace PerpustakaanAppMVC.View
             }
         }
 
+        // initialize icon menu
         private void InitializeMenuIcons()
         {
             menuIcons = new Dictionary<string, Image>
@@ -66,28 +75,6 @@ namespace PerpustakaanAppMVC.View
             uc.Dock = DockStyle.Fill;
             this.panelContent.Controls.Clear();
             this.panelContent.Controls.Add(uc);
-        }
-
-        private void btnDashboard_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(new UcDashboard());
-        }
-
-        private void btnRole_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(new UcRole1());
-        }
-
-        private void btnUser_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(new UcUser());
-        }
-
-        private void btnProject_Click(object sender, EventArgs e)
-        {
-            var projectControl = new UcProject();
-            projectControl.LoadTaskViewRequested += OnLoadTaskViewRequested;
-            LoadUserControl(projectControl);
         }
 
         private void OnLoadTaskViewRequested(int projectId, string projectName)
@@ -158,6 +145,19 @@ namespace PerpustakaanAppMVC.View
                     break;
             }
 
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Yakin ingin logout?", "Konfirmasi", MessageBoxButtons.YesNo);
+
+            if (confirm == DialogResult.Yes)
+            {
+                SessionManager.Logout();
+
+                this.Hide();
+                new FrmLogin().Show();
+            }
         }
     }
 }
