@@ -44,5 +44,10 @@ namespace PerpustakaanAppMVC.Controller
         {
             return _repository.Delete(id);
         }
+
+        public List<TaskItem> GetByProjectId(int projectId)
+        {
+            return _repository.GetByProjectId(projectId);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using PerpustakaanAppMVC.View.Dashboard;
 using PerpustakaanAppMVC.View.ProjectView;
 using PerpustakaanAppMVC.View.RoleView;
+using PerpustakaanAppMVC.View.TaskViewMain;
 using PerpustakaanAppMVC.View.UserView;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,20 @@ namespace PerpustakaanAppMVC.View
 
         private void btnProject_Click(object sender, EventArgs e)
         {
-            LoadUserControl(new UcProject());
+            var projectControl = new UcProject();
+            projectControl.LoadTaskViewRequested += OnLoadTaskViewRequested;
+            LoadUserControl(projectControl);
+        }
+
+        private void btnTask_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(new UcTask()); // Load all tasks
+        }
+
+        private void OnLoadTaskViewRequested(int projectId, string projectName)
+        {
+            // Load the UcTask control with the specific project
+            LoadUserControl(new UcTask(projectId, projectName));
         }
     }
 }

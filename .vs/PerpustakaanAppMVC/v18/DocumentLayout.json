@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\02_CODING\\C#\\TaskManagementApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\taskviewmain\\uctask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\taskviewmain\\uctask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\roleview\\ucrole1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\roleview\\ucrole1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +22,51 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FrmMain.cs [Design]",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T04:22:55.01Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UcTask.cs [Design]",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs [Design]",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T04:22:10.162Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UcRole1.cs [Design]",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs [Design]",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T04:21:47.15Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }

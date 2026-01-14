@@ -1,5 +1,6 @@
 ﻿using PerpustakaanAppMVC.Controller;
 using PerpustakaanAppMVC.Model.Entity;
+using PerpustakaanAppMVC.View.TaskViewMain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,9 @@ namespace PerpustakaanAppMVC.View.ProjectView
         private ProjectController _controller = new ProjectController();
         private List<Project> projects = new List<Project>();
         private int _editingIndex = -1;
+
+        // Event to notify parent form to load UcTask
+        public event Action<int, string> LoadTaskViewRequested;
 
         public UcProject()
         {
@@ -279,17 +283,8 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
             var project = projects[rowIndex];
 
-            // Show a simple message box as a placeholder for the task modal
-            // In a real implementation, you would create a task management form here
-            string taskInfo = $"Task Management for Project: {project.Nama}\n\n" +
-                              $"This would open a task management interface for the selected project.\n" +
-                              $"Project ID: {project.Id}\n" +
-                              $"Project Name: {project.Nama}\n" +
-                              $"Start Date: {project.StartDate}\n" +
-                              $"End Date: {project.EndDate}\n" +
-                              $"Status: {project.Status}";
-
-            MessageBox.Show(taskInfo, "Task Management", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Raise event to notify parent form to load UcTask view
+            LoadTaskViewRequested?.Invoke(project.Id, project.Nama);
         }
 
         private void ShowProjectData(Project project)

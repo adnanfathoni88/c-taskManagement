@@ -61,17 +61,20 @@
     <Compile Include="Controller\MahasiswaController.cs" />
     <Compile Include="Controller\ProjectController.cs" />
     <Compile Include="Controller\RoleController.cs" />
+    <Compile Include="Controller\TaskController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="DbInit.cs" />
     <Compile Include="Model\Context\DbContext.cs" />
     <Compile Include="Model\Entity\Mahasiswa.cs" />
     <Compile Include="Model\Entity\Project.cs" />
     <Compile Include="Model\Entity\Role.cs" />
+    <Compile Include="Model\Entity\TaskItem.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Model\Repository\api\MahasiswaRestApiRepository.cs" />
     <Compile Include="Model\Repository\MahasiswaRepository.cs" />
     <Compile Include="Model\Repository\ProjectRepository.cs" />
     <Compile Include="Model\Repository\RoleRepository.cs" />
+    <Compile Include="Model\Repository\TaskRepository.cs" />
     <Compile Include="Model\Repository\UserRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +113,24 @@
     </Compile>
     <Compile Include="View\RoleView\UcRole1.Designer.cs">
       <DependentUpon>UcRole1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmEntryTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmEntryTask.Designer.cs">
+      <DependentUpon>FrmEntryTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmTaskByProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmTaskByProject.Designer.cs">
+      <DependentUpon>FrmTaskByProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskViewMain\UcTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\TaskViewMain\UcTask.Designer.cs">
+      <DependentUpon>UcTask.cs</DependentUpon>
     </Compile>
     <Compile Include="View\UserView\FrmEntryUser.cs">
       <SubType>Form</SubType>
@@ -156,6 +177,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\RoleView\UcRole1.resx">
       <DependentUpon>UcRole1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TaskViewMain\FrmEntryTask.resx">
+      <DependentUpon>FrmEntryTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TaskViewMain\UcTask.resx">
+      <DependentUpon>UcTask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\UserView\FrmEntryUser.resx">
       <DependentUpon>FrmEntryUser.cs</DependentUpon>

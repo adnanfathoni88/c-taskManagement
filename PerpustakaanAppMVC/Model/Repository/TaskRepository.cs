@@ -23,7 +23,7 @@ namespace PerpustakaanAppMVC.Model.Repository
             using (var cmd = _context.Conn.CreateCommand())
             {
                 cmd.CommandText = @"
-                    SELECT t.id, t.title, t.description, t.status, t.priority, 
+                    SELECT t.id, t.title, t.description, t.status, t.priority,
                            t.project_id, t.assigned_to, t.deadline,
                            p.nama AS project_name,
                            u.name AS assigned_to_name
@@ -41,11 +41,11 @@ namespace PerpustakaanAppMVC.Model.Repository
                             Id = Convert.ToInt32(reader["id"]),
                             Title = reader["title"].ToString(),
                             Description = reader["description"].ToString(),
-                            Status = Convert.ToInt32(reader["status"]),
-                            Priority = Convert.ToInt32(reader["priority"]),
-                            ProjectId = Convert.ToInt32(reader["project_id"]),
-                            AssignedTo = Convert.ToInt32(reader["assigned_to"]),
-                            Deadline = DateTime.Parse(reader["deadline"].ToString()),
+                            Status = reader["status"].ToString(),
+                            Priority = reader["priority"].ToString(),
+                            ProjectId = reader["project_id"] != DBNull.Value ? Convert.ToInt32(reader["project_id"]) : (int?)null,
+                            AssignedTo = reader["assigned_to"] != DBNull.Value ? Convert.ToInt32(reader["assigned_to"]) : (int?)null,
+                            Deadline = reader["deadline"].ToString(),
                             ProjectName = reader["project_name"].ToString(),
                             AssignedToName = reader["assigned_to_name"].ToString()
                         };
@@ -65,7 +65,7 @@ namespace PerpustakaanAppMVC.Model.Repository
             using (var cmd = _context.Conn.CreateCommand())
             {
                 cmd.CommandText = @"
-                    SELECT t.id, t.title, t.description, t.status, t.priority, 
+                    SELECT t.id, t.title, t.description, t.status, t.priority,
                            t.project_id, t.assigned_to, t.deadline,
                            p.nama AS project_name,
                            u.name AS assigned_to_name
@@ -85,11 +85,11 @@ namespace PerpustakaanAppMVC.Model.Repository
                             Id = Convert.ToInt32(reader["id"]),
                             Title = reader["title"].ToString(),
                             Description = reader["description"].ToString(),
-                            Status = Convert.ToInt32(reader["status"]),
-                            Priority = Convert.ToInt32(reader["priority"]),
-                            ProjectId = Convert.ToInt32(reader["project_id"]),
-                            AssignedTo = Convert.ToInt32(reader["assigned_to"]),
-                            Deadline = DateTime.Parse(reader["deadline"].ToString()),
+                            Status = reader["status"].ToString(),
+                            Priority = reader["priority"].ToString(),
+                            ProjectId = reader["project_id"] != DBNull.Value ? Convert.ToInt32(reader["project_id"]) : (int?)null,
+                            AssignedTo = reader["assigned_to"] != DBNull.Value ? Convert.ToInt32(reader["assigned_to"]) : (int?)null,
+                            Deadline = reader["deadline"].ToString(),
                             ProjectName = reader["project_name"].ToString(),
                             AssignedToName = reader["assigned_to_name"].ToString()
                         };
@@ -115,9 +115,9 @@ namespace PerpustakaanAppMVC.Model.Repository
                 cmd.Parameters.Add(new SQLiteParameter("@description", task.Description ?? ""));
                 cmd.Parameters.Add(new SQLiteParameter("@status", task.Status));
                 cmd.Parameters.Add(new SQLiteParameter("@priority", task.Priority));
-                cmd.Parameters.Add(new SQLiteParameter("@project_id", task.ProjectId));
-                cmd.Parameters.Add(new SQLiteParameter("@assigned_to", task.AssignedTo));
-                cmd.Parameters.Add(new SQLiteParameter("@deadline", task.Deadline.ToString("yyyy-MM-dd")));
+                cmd.Parameters.Add(new SQLiteParameter("@project_id", task.ProjectId.HasValue ? task.ProjectId.Value : (object)DBNull.Value));
+                cmd.Parameters.Add(new SQLiteParameter("@assigned_to", task.AssignedTo.HasValue ? task.AssignedTo.Value : (object)DBNull.Value));
+                cmd.Parameters.Add(new SQLiteParameter("@deadline", task.Deadline ?? ""));
 
                 result = Convert.ToInt32(cmd.ExecuteScalar());
             }
@@ -132,8 +132,8 @@ namespace PerpustakaanAppMVC.Model.Repository
             using (var cmd = _context.Conn.CreateCommand())
             {
                 cmd.CommandText = @"
-                    UPDATE Tasks 
-                    SET title = @title, description = @description, status = @status, 
+                    UPDATE Tasks
+                    SET title = @title, description = @description, status = @status,
                         priority = @priority, project_id = @project_id, assigned_to = @assigned_to, deadline = @deadline
                     WHERE id = @id";
 
@@ -142,9 +142,9 @@ namespace PerpustakaanAppMVC.Model.Repository
                 cmd.Parameters.Add(new SQLiteParameter("@description", task.Description ?? ""));
                 cmd.Parameters.Add(new SQLiteParameter("@status", task.Status));
                 cmd.Parameters.Add(new SQLiteParameter("@priority", task.Priority));
-                cmd.Parameters.Add(new SQLiteParameter("@project_id", task.ProjectId));
-                cmd.Parameters.Add(new SQLiteParameter("@assigned_to", task.AssignedTo));
-                cmd.Parameters.Add(new SQLiteParameter("@deadline", task.Deadline.ToString("yyyy-MM-dd")));
+                cmd.Parameters.Add(new SQLiteParameter("@project_id", task.ProjectId.HasValue ? task.ProjectId.Value : (object)DBNull.Value));
+                cmd.Parameters.Add(new SQLiteParameter("@assigned_to", task.AssignedTo.HasValue ? task.AssignedTo.Value : (object)DBNull.Value));
+                cmd.Parameters.Add(new SQLiteParameter("@deadline", task.Deadline ?? ""));
 
                 result = cmd.ExecuteNonQuery();
             }
@@ -165,6 +165,51 @@ namespace PerpustakaanAppMVC.Model.Repository
             }
 
             return result;
+        }
+
+        public List<TaskItem> GetByProjectId(int projectId)
+        {
+            var tasks = new List<TaskItem>();
+
+            using (var cmd = _context.Conn.CreateCommand())
+            {
+                cmd.CommandText = @"
+                    SELECT t.id, t.title, t.description, t.status, t.priority,
+                           t.project_id, t.assigned_to, t.deadline,
+                           p.nama AS project_name,
+                           u.name AS assigned_to_name
+                    FROM Tasks t
+                    LEFT JOIN Projects p ON t.project_id = p.id
+                    LEFT JOIN Users u ON t.assigned_to = u.id
+                    WHERE t.project_id = @projectId
+                    ORDER BY t.id";
+
+                cmd.Parameters.Add(new SQLiteParameter("@projectId", projectId));
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var task = new TaskItem
+                        {
+                            Id = Convert.ToInt32(reader["id"]),
+                            Title = reader["title"].ToString(),
+                            Description = reader["description"].ToString(),
+                            Status = reader["status"].ToString(),
+                            Priority = reader["priority"].ToString(),
+                            ProjectId = reader["project_id"] != DBNull.Value ? Convert.ToInt32(reader["project_id"]) : (int?)null,
+                            AssignedTo = reader["assigned_to"] != DBNull.Value ? Convert.ToInt32(reader["assigned_to"]) : (int?)null,
+                            Deadline = reader["deadline"].ToString(),
+                            ProjectName = reader["project_name"].ToString(),
+                            AssignedToName = reader["assigned_to_name"].ToString()
+                        };
+
+                        tasks.Add(task);
+                    }
+                }
+            }
+
+            return tasks;
         }
     }
 }

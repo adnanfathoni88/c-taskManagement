@@ -45,6 +45,8 @@ namespace PerpustakaanAppMVC.View
             this.lbTitle = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.panelContent = new System.Windows.Forms.Panel();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.btnTask = new System.Windows.Forms.Button();
             this.panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -52,6 +54,7 @@ namespace PerpustakaanAppMVC.View
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
             // 
             // panelSidebar
@@ -62,10 +65,12 @@ namespace PerpustakaanAppMVC.View
             this.panelSidebar.Controls.Add(this.pictureBox3);
             this.panelSidebar.Controls.Add(this.pictureBox2);
             this.panelSidebar.Controls.Add(this.pictureBox1);
+            this.panelSidebar.Controls.Add(this.pictureBox7);
             this.panelSidebar.Controls.Add(this.btnDashboard);
             this.panelSidebar.Controls.Add(this.btnRole);
             this.panelSidebar.Controls.Add(this.btnUser);
             this.panelSidebar.Controls.Add(this.btnProject);
+            this.panelSidebar.Controls.Add(this.btnTask);
             this.panelSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelSidebar.Location = new System.Drawing.Point(0, 0);
             this.panelSidebar.Name = "panelSidebar";
@@ -211,6 +216,32 @@ namespace PerpustakaanAppMVC.View
             this.panelContent.Name = "panelContent";
             this.panelContent.Size = new System.Drawing.Size(600, 405);
             this.panelContent.TabIndex = 1;
+            //
+            // pictureBox7
+            //
+            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox7.Location = new System.Drawing.Point(9, 291);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox7.TabIndex = 8;
+            this.pictureBox7.TabStop = false;
+            // 
+            // btnTask1
+            // 
+            this.btnTask.FlatAppearance.BorderSize = 0;
+            this.btnTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTask.ForeColor = System.Drawing.Color.White;
+            this.btnTask.Location = new System.Drawing.Point(0, 286);
+            this.btnTask.Name = "btnTask";
+            this.btnTask.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
+            this.btnTask.Size = new System.Drawing.Size(194, 43);
+            this.btnTask.TabIndex = 9;
+            this.btnTask.Text = "Task";
+            this.btnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTask.UseVisualStyleBackColor = true;
+            this.btnTask.Click += new System.EventHandler(this.btnTask_Click);
             // 
             // FrmMain
             // 
@@ -231,6 +262,7 @@ namespace PerpustakaanAppMVC.View
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -242,13 +274,15 @@ namespace PerpustakaanAppMVC.View
         private System.Windows.Forms.Button btnRole;
         private System.Windows.Forms.Button btnUser;
         private Button btnProject;
+        private Button btnTask;
         private Label lbTitle;
         private Panel panelHeader;
         private Panel panelContent;
         private PictureBox pictureBox1;
-        private PictureBox pictureBox5;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox3;
         private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox7;
     }
 }

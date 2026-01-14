@@ -7,41 +7,13 @@ namespace PerpustakaanAppMVC.Model.Entity
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Status { get; set; } // 0 = Pending, 1 = In Progress, 2 = Completed
-        public int Priority { get; set; } // 0 = Low, 1 = Medium, 2 = High
-        public int ProjectId { get; set; }
-        public int AssignedTo { get; set; }
-        public DateTime Deadline { get; set; }
+        public string Status { get; set; } // Pending, In Progress, Completed
+        public string Priority { get; set; } // Low, Medium, High
+        public int? ProjectId { get; set; }
+        public string Deadline { get; set; } // Using string to store date in SQLite format
+        public int? AssignedTo { get; set; }
 
         // Computed properties for display
-        public string StatusText
-        {
-            get
-            {
-                return Status switch
-                {
-                    0 => "Pending",
-                    1 => "In Progress",
-                    2 => "Completed",
-                    _ => "Unknown"
-                };
-            }
-        }
-
-        public string PriorityText
-        {
-            get
-            {
-                return Priority switch
-                {
-                    0 => "Low",
-                    1 => "Medium",
-                    2 => "High",
-                    _ => "Unknown"
-                };
-            }
-        }
-
         public string ProjectName { get; set; }
         public string AssignedToName { get; set; }
     }
