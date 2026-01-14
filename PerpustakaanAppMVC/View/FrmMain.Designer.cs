@@ -42,19 +42,13 @@ namespace PerpustakaanAppMVC.View
             this.btnRole = new System.Windows.Forms.Button();
             this.btnUser = new System.Windows.Forms.Button();
             this.btnProject = new System.Windows.Forms.Button();
-            this.lbTitle = new System.Windows.Forms.Label();
-            this.panelHeader = new System.Windows.Forms.Panel();
             this.panelContent = new System.Windows.Forms.Panel();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.btnTask = new System.Windows.Forms.Button();
             this.panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             this.SuspendLayout();
             // 
             // panelSidebar
@@ -65,12 +59,10 @@ namespace PerpustakaanAppMVC.View
             this.panelSidebar.Controls.Add(this.pictureBox3);
             this.panelSidebar.Controls.Add(this.pictureBox2);
             this.panelSidebar.Controls.Add(this.pictureBox1);
-            this.panelSidebar.Controls.Add(this.pictureBox7);
             this.panelSidebar.Controls.Add(this.btnDashboard);
             this.panelSidebar.Controls.Add(this.btnRole);
             this.panelSidebar.Controls.Add(this.btnUser);
             this.panelSidebar.Controls.Add(this.btnProject);
-            this.panelSidebar.Controls.Add(this.btnTask);
             this.panelSidebar.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelSidebar.Location = new System.Drawing.Point(0, 0);
             this.panelSidebar.Name = "panelSidebar";
@@ -89,10 +81,11 @@ namespace PerpustakaanAppMVC.View
             // 
             // pictureBox4
             // 
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(12, 100);
+            this.pictureBox4.Location = new System.Drawing.Point(20, 103);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox4.Size = new System.Drawing.Size(24, 24);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 6;
             this.pictureBox4.TabStop = false;
@@ -100,9 +93,9 @@ namespace PerpustakaanAppMVC.View
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(12, 150);
+            this.pictureBox3.Location = new System.Drawing.Point(20, 155);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox3.Size = new System.Drawing.Size(24, 24);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 5;
             this.pictureBox3.TabStop = false;
@@ -110,9 +103,9 @@ namespace PerpustakaanAppMVC.View
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(12, 202);
+            this.pictureBox2.Location = new System.Drawing.Point(20, 202);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox2.Size = new System.Drawing.Size(24, 24);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
@@ -120,9 +113,9 @@ namespace PerpustakaanAppMVC.View
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 248);
+            this.pictureBox1.Location = new System.Drawing.Point(20, 252);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -190,58 +183,14 @@ namespace PerpustakaanAppMVC.View
             this.btnProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnProject.UseVisualStyleBackColor = true;
             this.btnProject.Click += new System.EventHandler(this.btnProject_Click);
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.8209F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTitle.Location = new System.Drawing.Point(20, 15);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(0, 29);
-            this.lbTitle.TabIndex = 0;
-            // 
-            // panelHeader
-            // 
-            this.panelHeader.Controls.Add(this.lbTitle);
-            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHeader.Location = new System.Drawing.Point(200, 0);
-            this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(600, 45);
-            this.panelHeader.TabIndex = 2;
-            // 
+            //
             // panelContent
-            // 
+            //
             this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(200, 45);
+            this.panelContent.Location = new System.Drawing.Point(200, 0);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(600, 405);
+            this.panelContent.Size = new System.Drawing.Size(600, 450);
             this.panelContent.TabIndex = 1;
-            //
-            // pictureBox7
-            //
-            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox7.Location = new System.Drawing.Point(9, 291);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox7.TabIndex = 8;
-            this.pictureBox7.TabStop = false;
-            // 
-            // btnTask1
-            // 
-            this.btnTask.FlatAppearance.BorderSize = 0;
-            this.btnTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTask.ForeColor = System.Drawing.Color.White;
-            this.btnTask.Location = new System.Drawing.Point(0, 286);
-            this.btnTask.Name = "btnTask";
-            this.btnTask.Padding = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this.btnTask.Size = new System.Drawing.Size(194, 43);
-            this.btnTask.TabIndex = 9;
-            this.btnTask.Text = "Task";
-            this.btnTask.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTask.UseVisualStyleBackColor = true;
-            this.btnTask.Click += new System.EventHandler(this.btnTask_Click);
             // 
             // FrmMain
             // 
@@ -250,7 +199,6 @@ namespace PerpustakaanAppMVC.View
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelContent);
-            this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.panelSidebar);
             this.Name = "FrmMain";
             this.Text = "FrmMain";
@@ -260,9 +208,6 @@ namespace PerpustakaanAppMVC.View
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panelHeader.ResumeLayout(false);
-            this.panelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -274,15 +219,11 @@ namespace PerpustakaanAppMVC.View
         private System.Windows.Forms.Button btnRole;
         private System.Windows.Forms.Button btnUser;
         private Button btnProject;
-        private Button btnTask;
-        private Label lbTitle;
-        private Panel panelHeader;
         private Panel panelContent;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
         private PictureBox pictureBox5;
-        private PictureBox pictureBox7;
     }
 }

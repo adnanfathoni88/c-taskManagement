@@ -61,6 +61,7 @@
     <Compile Include="Controller\MahasiswaController.cs" />
     <Compile Include="Controller\ProjectController.cs" />
     <Compile Include="Controller\RoleController.cs" />
+    <Compile Include="Controller\LogController.cs" />
     <Compile Include="Controller\TaskController.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="DbInit.cs" />
@@ -68,11 +69,13 @@
     <Compile Include="Model\Entity\Mahasiswa.cs" />
     <Compile Include="Model\Entity\Project.cs" />
     <Compile Include="Model\Entity\Role.cs" />
+    <Compile Include="Model\Entity\Log.cs" />
     <Compile Include="Model\Entity\TaskItem.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Model\Repository\api\MahasiswaRestApiRepository.cs" />
     <Compile Include="Model\Repository\MahasiswaRepository.cs" />
     <Compile Include="Model\Repository\ProjectRepository.cs" />
+    <Compile Include="Model\Repository\LogRepository.cs" />
     <Compile Include="Model\Repository\RoleRepository.cs" />
     <Compile Include="Model\Repository\TaskRepository.cs" />
     <Compile Include="Model\Repository\UserRepository.cs" />
@@ -113,6 +116,18 @@
     </Compile>
     <Compile Include="View\RoleView\UcRole1.Designer.cs">
       <DependentUpon>UcRole1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmEntryLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmEntryLog.Designer.cs">
+      <DependentUpon>FrmEntryLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmLogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TaskViewMain\FrmLogViewer.Designer.cs">
+      <DependentUpon>FrmLogViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="View\TaskViewMain\FrmEntryTask.cs">
       <SubType>Form</SubType>

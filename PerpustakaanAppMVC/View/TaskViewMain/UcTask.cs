@@ -117,7 +117,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             actionColumn.HeaderText = "Action";
             actionColumn.ReadOnly = true;
             actionColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            actionColumn.Width = 160; // Width to accommodate 4 buttons (40x4)
+            actionColumn.Width = 200; // Width to accommodate 5 buttons (40x5)
             actionColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvTask.Columns.Add(actionColumn);
 
@@ -240,13 +240,13 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
         {
             if (dgvTask.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Pilih data yang akan diperbarui statusnya");
+                MessageBox.Show("Pilih data yang akan ditambahkan lognya");
                 return;
             }
 
             var index = dgvTask.SelectedRows[0].Index;
-            // Update task status
-            UpdateTaskStatus(index);
+            // Show log form
+            ShowTaskLog(index);
         }
 
         private void DgvTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -256,7 +256,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             {
                 // Calculate which button was clicked based on mouse position
                 var cellRect = dgvTask.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                int totalButtons = 4; // View, Edit, Delete, Update Status
+                int totalButtons = 5; // View, Edit, Delete, Log, View Log
                 int buttonWidth = cellRect.Width / totalButtons; // Divide cell width by number of buttons
 
                 // Get mouse position relative to the cell
@@ -281,10 +281,15 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                     // Handle delete button click
                     DeleteTask(e.RowIndex);
                 }
-                else // Update Status button
+                else if (relativeX < buttonWidth * 4) // Log button
                 {
-                    // Handle update status button click
-                    UpdateTaskStatus(e.RowIndex);
+                    // Handle log button click
+                    ShowTaskLog(e.RowIndex);
+                }
+                else // View Log button
+                {
+                    // Handle view log button click
+                    ViewTaskLog(e.RowIndex);
                 }
             }
         }
@@ -334,7 +339,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             }
         }
 
-        private void UpdateTaskStatus(int rowIndex)
+        private void ShowTaskLog(int rowIndex)
         {
             if (rowIndex < 0 || rowIndex >= tasks.Count)
             {
@@ -343,9 +348,30 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             }
 
             var task = tasks[rowIndex];
-            // Show a dialog to update the task status
-            // For now, just show a message
-            MessageBox.Show($"Fungsi update status untuk tugas {task.Title}", "Update Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Open the log entry form for this task
+            var frm = new FrmEntryLog("Tambah Log", task.Id);
+            frm.OnCreate += (log) => {
+                // Optionally refresh or show success message
+                MessageBox.Show($"Log berhasil ditambahkan untuk tugas {task.Title}", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            };
+
+            frm.ShowDialog();
+        }
+
+        private void ViewTaskLog(int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex >= tasks.Count)
+            {
+                MessageBox.Show("Invalid task selection");
+                return;
+            }
+
+            var task = tasks[rowIndex];
+
+            // Open the log viewer form for this task
+            var frm = new FrmLogViewer(task.Id, task.Title);
+            frm.ShowDialog();
         }
 
         private void ShowTaskData(TaskItem task)
@@ -379,7 +405,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                 e.Graphics.FillRectangle(new SolidBrush(dgvTask.DefaultCellStyle.BackColor), e.CellBounds);
 
                 // Define button dimensions
-                int totalButtons = 4; // View, Edit, Delete, Update Status
+                int totalButtons = 5; // View, Edit, Delete, Log, View Log
                 int buttonWidth = e.CellBounds.Width / totalButtons;
                 int buttonHeight = e.CellBounds.Height;
 
@@ -431,18 +457,34 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
                 );
 
-                // Draw Update Status button with light yellow background
-                Rectangle statusRect = new Rectangle(e.CellBounds.Left + buttonWidth * 3, e.CellBounds.Top, buttonWidth, buttonHeight);
+                // Draw Log button with light yellow background
+                Rectangle logRect = new Rectangle(e.CellBounds.Left + buttonWidth * 3, e.CellBounds.Top, buttonWidth, buttonHeight);
                 using (Brush brush = new SolidBrush(Color.LightYellow))
                 {
-                    e.Graphics.FillRectangle(brush, statusRect);
+                    e.Graphics.FillRectangle(brush, logRect);
                 }
-                ControlPaint.DrawBorder(e.Graphics, statusRect, Color.Gray, ButtonBorderStyle.Solid);
+                ControlPaint.DrawBorder(e.Graphics, logRect, Color.Gray, ButtonBorderStyle.Solid);
                 TextRenderer.DrawText(
                     e.Graphics,
-                    "Status",
+                    "Log",
                     e.CellStyle.Font,
-                    statusRect,
+                    logRect,
+                    Color.Black,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                );
+
+                // Draw View Log button with light cyan background
+                Rectangle viewLogRect = new Rectangle(e.CellBounds.Left + buttonWidth * 4, e.CellBounds.Top, buttonWidth, buttonHeight);
+                using (Brush brush = new SolidBrush(Color.LightCyan))
+                {
+                    e.Graphics.FillRectangle(brush, viewLogRect);
+                }
+                ControlPaint.DrawBorder(e.Graphics, viewLogRect, Color.Gray, ButtonBorderStyle.Solid);
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    "View Log",
+                    e.CellStyle.Font,
+                    viewLogRect,
                     Color.Black,
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
                 );

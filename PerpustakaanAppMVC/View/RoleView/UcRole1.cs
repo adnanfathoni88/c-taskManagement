@@ -13,9 +13,8 @@ using System.Windows.Forms;
 
 namespace PerpustakaanAppMVC.View.RoleView
 {
-    public partial class UcRole1 : BaseUserControl
+    public partial class UcRole1 : UserControl
     {
-        public override string PageTitle => "Manajemen Role";
         private RoleController _controller = new RoleController();
         private List<Role> roles = new List<Role>();
         private int _editingIndex = -1;

@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelCard = new System.Windows.Forms.Panel();
             this.dgvRole = new System.Windows.Forms.DataGridView();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnHapus = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnTambah = new System.Windows.Forms.Button();
-            this.panelToolbar = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panelCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRole)).BeginInit();
-            this.panelToolbar.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelCard
@@ -44,10 +46,10 @@
             this.panelCard.BackColor = System.Drawing.Color.White;
             this.panelCard.Controls.Add(this.dgvRole);
             this.panelCard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelCard.Location = new System.Drawing.Point(10, 44);
+            this.panelCard.Location = new System.Drawing.Point(10, 48);
             this.panelCard.Name = "panelCard";
             this.panelCard.Padding = new System.Windows.Forms.Padding(15);
-            this.panelCard.Size = new System.Drawing.Size(523, 323);
+            this.panelCard.Size = new System.Drawing.Size(523, 319);
             this.panelCard.TabIndex = 7;
             // 
             // dgvRole
@@ -59,75 +61,79 @@
             this.dgvRole.Location = new System.Drawing.Point(15, 15);
             this.dgvRole.Name = "dgvRole";
             this.dgvRole.RowHeadersWidth = 51;
-            this.dgvRole.Size = new System.Drawing.Size(493, 293);
+            this.dgvRole.Size = new System.Drawing.Size(493, 289);
             this.dgvRole.TabIndex = 0;
             // 
-            // btnEdit
+            // contextMenuStrip1
             // 
-            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(180)))), ((int)(((byte)(75)))));
-            this.btnEdit.FlatAppearance.BorderSize = 0;
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(94, 3);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 2;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = false;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(22, 22);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // btnHapus
+            // label1
             // 
-            this.btnHapus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
-            this.btnHapus.FlatAppearance.BorderSize = 0;
-            this.btnHapus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHapus.ForeColor = System.Drawing.Color.White;
-            this.btnHapus.Location = new System.Drawing.Point(175, 3);
-            this.btnHapus.Name = "btnHapus";
-            this.btnHapus.Size = new System.Drawing.Size(75, 23);
-            this.btnHapus.TabIndex = 4;
-            this.btnHapus.Text = "Hapus";
-            this.btnHapus.UseVisualStyleBackColor = false;
-            this.btnHapus.Click += new System.EventHandler(this.btnHapus_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.97015F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 30);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Role";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.09369F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.63671F));
+            this.tableLayoutPanel1.Controls.Add(this.btnTambah, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(523, 38);
+            this.tableLayoutPanel1.TabIndex = 8;
             // 
             // btnTambah
             // 
-            this.btnTambah.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnTambah.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
+            this.btnTambah.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnTambah.FlatAppearance.BorderSize = 0;
             this.btnTambah.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTambah.ForeColor = System.Drawing.Color.White;
-            this.btnTambah.Location = new System.Drawing.Point(13, 3);
+            this.btnTambah.Location = new System.Drawing.Point(370, 3);
             this.btnTambah.Name = "btnTambah";
-            this.btnTambah.Size = new System.Drawing.Size(75, 23);
-            this.btnTambah.TabIndex = 1;
+            this.btnTambah.Size = new System.Drawing.Size(150, 32);
+            this.btnTambah.TabIndex = 3;
             this.btnTambah.Text = "Tambah";
             this.btnTambah.UseVisualStyleBackColor = false;
-            this.btnTambah.Click += new System.EventHandler(this.btnTambah_Click);
             // 
-            // panelToolbar
+            // label2
             // 
-            this.panelToolbar.BackColor = System.Drawing.Color.Transparent;
-            this.panelToolbar.Controls.Add(this.btnTambah);
-            this.panelToolbar.Controls.Add(this.btnHapus);
-            this.panelToolbar.Controls.Add(this.btnEdit);
-            this.panelToolbar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelToolbar.Location = new System.Drawing.Point(10, 10);
-            this.panelToolbar.Name = "panelToolbar";
-            this.panelToolbar.Size = new System.Drawing.Size(523, 34);
-            this.panelToolbar.TabIndex = 6;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.97015F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(177, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 31);
+            this.label2.TabIndex = 5;
             // 
             // UcRole1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelCard);
-            this.Controls.Add(this.panelToolbar);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "UcRole1";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Size = new System.Drawing.Size(543, 377);
             this.panelCard.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRole)).EndInit();
-            this.panelToolbar.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -136,9 +142,10 @@
 
         private System.Windows.Forms.Panel panelCard;
         private System.Windows.Forms.DataGridView dgvRole;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnHapus;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnTambah;
-        private System.Windows.Forms.Panel panelToolbar;
+        private System.Windows.Forms.Label label2;
     }
 }

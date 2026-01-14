@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\02_CODING\\C#\\TaskManagementApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\taskviewmain\\uctask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\taskviewmain\\uctask.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|d:\\02_coding\\c#\\taskmanagementapp\\perpustakaanappmvc\\view\\roleview\\ucrole1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\roleview\\ucrole1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|D:\\02_CODING\\C#\\TaskManagementApp\\perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|D:\\02_CODING\\C#\\TaskManagementApp\\perpustakaanappmvc\\view\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C562D44-6132-4909-8B9B-CD3AA0C42171}|PerpustakaanAppMVC\\PerpustakaanAppMVC.csproj|solutionrelative:perpustakaanappmvc\\view\\frmmain.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,27 +34,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UcTask.cs [Design]",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs [Design]",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\TaskViewMain\\UcTask.cs [Design]",
+              "DocumentIndex": 1,
+              "Title": "FrmMain.cs [Design]",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T04:22:10.162Z",
+              "WhenOpened": "2026-01-14T06:03:54.799Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UcRole1.cs [Design]",
-              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs",
-              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs",
-              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs [Design]",
-              "RelativeToolTip": "PerpustakaanAppMVC\\View\\RoleView\\UcRole1.cs [Design]",
+              "DocumentIndex": 2,
+              "Title": "FrmMain.Designer.cs",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.Designer.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAswGYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T04:21:47.15Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-01-14T06:01:10.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FrmMain.cs",
+              "DocumentMoniker": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeDocumentMoniker": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ToolTip": "D:\\02_CODING\\C#\\TaskManagementApp\\PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "RelativeToolTip": "PerpustakaanAppMVC\\View\\FrmMain.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAvwDoAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T05:29:42.077Z",
+              "EditorCaption": ""
             }
           ]
         }

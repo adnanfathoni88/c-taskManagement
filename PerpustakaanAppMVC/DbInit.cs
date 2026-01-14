@@ -12,6 +12,7 @@ public static class DbInit
             createUserTable(context);
             createProjectTable(context);
             createTaskTable(context);
+            createLogTable(context);
 
             seedRole(context);
             seedUser(context);
@@ -93,6 +94,25 @@ public static class DbInit
                 assigned_to INTEGER,
                 FOREIGN KEY (project_id) REFERENCES Projects(id),
                 FOREIGN KEY (assigned_to) REFERENCES Users(id)
+            );";
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    private static void createLogTable(DbContext context)
+    {
+        using (var cmd = context.Conn.CreateCommand())
+        {
+            cmd.CommandText = @"
+            CREATE TABLE IF NOT EXISTS Logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                action TEXT NOT NULL,
+                user_id INTEGER NOT NULL,
+                task_id INTEGER NOT NULL,
+                description TEXT,
+                timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES Users(id),
+                FOREIGN KEY (task_id) REFERENCES Tasks(id)
             );";
             cmd.ExecuteNonQuery();
         }
