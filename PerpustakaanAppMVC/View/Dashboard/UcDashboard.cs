@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PerpustakaanAppMVC.Controller;
+using PerpustakaanAppMVC.Model.Entity;
 using PerpustakaanAppMVC.Session;
 
 namespace PerpustakaanAppMVC.View.Dashboard
@@ -16,90 +19,49 @@ namespace PerpustakaanAppMVC.View.Dashboard
         private Label lblUserName;
         private Label lblUserEmail;
         private Label lblUserRole;
+        private string _userId;
+        private string _roleName;
+        private List<Project> projects = new List<Project>();
+        private ProjectController _projectController = new ProjectController();
+        private TaskController _taskController = new TaskController();
 
         public override string PageTitle => "Dashboard";
 
         public UcDashboard()
         {
+            // get info user
+            _userId = SessionManager.GetCurrentUserId().ToString();
+            _roleName = SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
-            InitializeAdditionalComponents();
             LoadUserData();
-        }
-
-        private void InitializeAdditionalComponents()
-        {
-            // Create welcome label
-            Label lblWelcome = new Label();
-            lblWelcome.Name = "lblWelcome";
-            lblWelcome.Font = new Font("Arial", 16, FontStyle.Bold);
-            lblWelcome.Location = new Point(20, 50);
-            lblWelcome.Size = new Size(400, 30);
-            lblWelcome.Text = "Welcome to Dashboard";
-            this.Controls.Add(lblWelcome);
-
-            // Create user info panel
-            Panel pnlUserInfo = new Panel();
-            pnlUserInfo.Name = "pnlUserInfo";
-            pnlUserInfo.Location = new Point(20, 100);
-            pnlUserInfo.Size = new Size(300, 100);
-            pnlUserInfo.BorderStyle = BorderStyle.FixedSingle;
-            this.Controls.Add(pnlUserInfo);
-
-            // Add user info labels
-            Label lblUserNameLabel = new Label();
-            lblUserNameLabel.Text = "Name:";
-            lblUserNameLabel.Location = new Point(10, 10);
-            lblUserNameLabel.Size = new Size(100, 20);
-            pnlUserInfo.Controls.Add(lblUserNameLabel);
-
-            lblUserName = new Label();
-            lblUserName.Name = "lblUserName";
-            lblUserName.Location = new Point(120, 10);
-            lblUserName.Size = new Size(150, 20);
-            lblUserName.Font = new Font("Arial", 10, FontStyle.Regular);
-            pnlUserInfo.Controls.Add(lblUserName);
-
-            Label lblUserEmailLabel = new Label();
-            lblUserEmailLabel.Text = "Email:";
-            lblUserEmailLabel.Location = new Point(10, 35);
-            lblUserEmailLabel.Size = new Size(100, 20);
-            pnlUserInfo.Controls.Add(lblUserEmailLabel);
-
-            lblUserEmail = new Label();
-            lblUserEmail.Name = "lblUserEmail";
-            lblUserEmail.Location = new Point(120, 35);
-            lblUserEmail.Size = new Size(150, 20);
-            lblUserEmail.Font = new Font("Arial", 10, FontStyle.Regular);
-            pnlUserInfo.Controls.Add(lblUserEmail);
-
-            Label lblUserRoleLabel = new Label();
-            lblUserRoleLabel.Text = "Role:";
-            lblUserRoleLabel.Location = new Point(10, 60);
-            lblUserRoleLabel.Size = new Size(100, 20);
-            pnlUserInfo.Controls.Add(lblUserRoleLabel);
-
-            lblUserRole = new Label();
-            lblUserRole.Name = "lblUserRole";
-            lblUserRole.Location = new Point(120, 60);
-            lblUserRole.Size = new Size(150, 20);
-            lblUserRole.Font = new Font("Arial", 10, FontStyle.Regular);
-            pnlUserInfo.Controls.Add(lblUserRole);
         }
 
         private void LoadUserData()
         {
-            if (SessionManager.IsLoggedIn)
+            // check login
+            if (!SessionManager.IsLoggedIn) { MessageBox.Show("User is not logged in.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
+            // check isAdmin
+            bool isAdmin = _roleName == "Admin";
+
+            // getData
+            try
             {
-                lblUserName.Text = SessionManager.GetCurrentUserName();
-                lblUserEmail.Text = SessionManager.CurrentUser?.Email ?? "";
-                lblUserRole.Text = SessionManager.GetCurrentUserRole();
+                var countProjects = _projectController.GetTotalProjects(_userId);
+                var countTasks = _taskController.GetTotalTasks(_userId);
+
+                lbProyek.Text = countProjects.ToString();
+                lbTask.Text = countTasks.ToString();
+
+
+                MessageBox.Show("Total Projects: " + countProjects, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else
+            catch (Exception ex)
             {
-                lblUserName.Text = "Guest";
-                lblUserEmail.Text = "Not logged in";
-                lblUserRole.Text = "N/A";
+                MessageBox.Show("Error loading user data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

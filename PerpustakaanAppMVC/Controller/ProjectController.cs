@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace PerpustakaanAppMVC.Controller
 {
@@ -52,12 +53,25 @@ namespace PerpustakaanAppMVC.Controller
             }
         }
 
-        public List<Project> GetAllProjects()
+        public List<Project> GetAllProjects(string id = null)
+        {
+
+            MessageBox.Show("controller" + id);
+
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new ProjectRepository(context);
+                return _repo.ReadAll(id);
+            }
+        }
+
+        // get total project 
+        public int GetTotalProjects(string userId = null)
         {
             using (var context = new Model.Context.DbContext())
             {
                 var _repo = new ProjectRepository(context);
-                return _repo.ReadAll();
+                return _repo.GetTotalProjects(userId);
             }
         }
     }

@@ -56,37 +56,67 @@ namespace PerpustakaanAppMVC.Model.Repository
             }
         }
 
-        public List<Project> ReadAll()
+        public List<Project> ReadAll(string id = null)
         {
             List<Project> list = new List<Project>();
-            string sql = @"SELECT id, nama, deskripsi, status, start_date, end_date FROM Projects ORDER BY nama;";
+
+            string sql = @"SELECT id, nama, deskripsi, status, start_date, end_date 
+                   FROM Projects ";
+
+            // kondisi ada id
+            if (!string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("readall" + id);
+                sql += " WHERE id = @id ";
+            }
+
+            sql += " ORDER BY nama;";
+
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
-                try
+                if (!string.IsNullOrEmpty(id))
                 {
-                    using (SQLiteDataReader dtr = cmd.ExecuteReader())
-                    {
-                        while (dtr.Read())
-                        {
-                            Project project = new Project();
-                            project.Id = Convert.ToInt32(dtr["id"]);
-                            project.Nama = dtr["nama"].ToString();
-                            project.Deskripsi = dtr["deskripsi"].ToString();
-                            project.Status = dtr["status"].ToString();
-                            project.StartDate = Convert.ToDateTime(dtr["start_date"]);
-                            project.EndDate = Convert.ToDateTime(dtr["end_date"]);
-                            list.Add(project);
-                        }
-                    }
-                    return list;
+                    cmd.Parameters.AddWithValue("@id", id);
                 }
-                catch (Exception ex)
+
+                using (SQLiteDataReader dtr = cmd.ExecuteReader())
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
+                    while (dtr.Read())
+                    {
+                        Project project = new Project();
+                        project.Id = Convert.ToInt32(dtr["id"]);
+                        project.Nama = dtr["nama"].ToString();
+                        project.Deskripsi = dtr["deskripsi"].ToString();
+                        project.Status = dtr["status"].ToString();
+                        project.StartDate = Convert.ToDateTime(dtr["start_date"]);
+                        project.EndDate = Convert.ToDateTime(dtr["end_date"]);
+
+                        list.Add(project);
+                    }
                 }
             }
 
+            return list;
+        }
+
+        public int GetTotalProjects(string userId = null)
+        {
+            int total = 0;
+            string sql = "SELECT COUNT(*) FROM Projects";
+            // kondisi ada userId
+            if (!string.IsNullOrEmpty(userId))
+            {
+                sql += " WHERE created_by = @userId";
+            }
+            using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
+            {
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                }
+                total = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            return total;
         }
     }
 }

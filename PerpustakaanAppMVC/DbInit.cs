@@ -72,7 +72,9 @@ public static class DbInit
                 deskripsi TEXT,
                 status TEXT,
                 start_date TEXT,
-                end_date TEXT
+                end_date TEXT,
+                created_by INTEGER NOT NULL,
+                FOREIGN KEY (created_by) REFERENCES Users(id)
             );";
             cmd.ExecuteNonQuery();
         }
@@ -142,7 +144,9 @@ public static class DbInit
             INSERT OR REPLACE INTO Users (id, name, email, password, status, role_id) VALUES
             (1, 'Admin', 'admin@gmail.com', 'admin123', 1, 1),
             (2, 'Dev1', 'dev@gmail.com', 'dev123', 1, 3), 
-            (3, 'Tester2', 'tester@gmail.com', 'tester123', 1, 3);
+            (3, 'Tester2', 'tester@gmail.com', 'tester123', 1, 3),
+            (4, 'PM1', 'pm@gmail.com', 'pm123', 1, 2),
+            (5, 'PM2', 'pm2@gmail.com', 'pm2123', 1, 2);
             ";
             cmd.ExecuteNonQuery();
         }
@@ -153,10 +157,10 @@ public static class DbInit
         using (var cmd = context.Conn.CreateCommand())
         {
             cmd.CommandText = @"
-            INSERT OR REPLACE INTO Projects (id, nama, deskripsi, status, start_date, end_date) VALUES
-            (1, 'Website Development', 'Develop company website', 'Active', '2023-01-01', '2023-06-30'),
-            (2, 'Mobile App', 'Create mobile application', 'Active', '2023-02-01', '2023-08-31'),
-            (3, 'Database Migration', 'Migrate legacy database', 'Inactive', '2022-11-01', '2023-01-31');
+            INSERT OR REPLACE INTO Projects (id, nama, deskripsi, status, start_date, end_date, created_by) VALUES
+            (1, 'Website Development', 'Develop company website', 'Active', '2023-01-01', '2023-06-30', 5),
+            (2, 'Mobile App', 'Create mobile application', 'Active', '2023-02-01', '2023-08-31', 4),
+            (3, 'Database Migration', 'Migrate legacy database', 'Inactive', '2022-11-01', '2023-01-31', 5);
             ";
             cmd.ExecuteNonQuery();
         }

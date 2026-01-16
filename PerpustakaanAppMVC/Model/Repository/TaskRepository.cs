@@ -211,5 +211,34 @@ namespace PerpustakaanAppMVC.Model.Repository
 
             return tasks;
         }
+
+        public int CountTasksByUserId(string userId = null)
+        {
+            int count = 0;
+
+            string sql = @"SELECT COUNT(*)
+                            FROM Tasks t
+                            JOIN Projects p 
+                            ON t.project_id = p.id
+                            WHERE p.created_by = @userId
+                        ";
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                //sql += "WHERE assigned_to = @userId ";
+            }
+
+            using (SQLiteCommand cmd = new SQLiteCommand(sql, _context.Conn))
+            {
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                }
+                count = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+
+            return count;
+        }
+
     }
 }

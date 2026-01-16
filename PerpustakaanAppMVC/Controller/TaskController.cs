@@ -49,5 +49,14 @@ namespace PerpustakaanAppMVC.Controller
         {
             return _repository.GetByProjectId(projectId);
         }
+
+        public int GetTotalTasks(string userId = null)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.CountTasksByUserId(userId);
+            }
+        }
     }
 }
