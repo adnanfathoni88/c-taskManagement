@@ -1,4 +1,4 @@
-﻿using PerpustakaanAppMVC.Controller;
+using PerpustakaanAppMVC.Controller;
 using PerpustakaanAppMVC.Model.Entity;
 using System;
 using System.Collections.Generic;
@@ -19,10 +19,18 @@ namespace PerpustakaanAppMVC.View.RoleView
         private List<Role> roles = new List<Role>();
         private int _editingIndex = -1;
 
+        private int _userLoginId;
+        private string _userRole;
+        private List<string> _allowActions;
+
         public UcRole1()
         {
+            _userLoginId = Session.SessionManager.GetCurrentUserId();
+            _userRole = Session.SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
             InitDataGridView();
+            AllowActionByRole();
         }
 
         private void InitDataGridView()
@@ -34,6 +42,13 @@ namespace PerpustakaanAppMVC.View.RoleView
             dgvRole.AllowUserToDeleteRows = false;
             dgvRole.MultiSelect = false;
             dgvRole.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Make columns fill available space
+
+            // **Set background color header**
+            dgvRole.EnableHeadersVisualStyles = false;
+            dgvRole.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#3C467B"); // warna latar belakang
+            dgvRole.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#FFFFFF"); // warna teks
+            dgvRole.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
 
             // Add columns
             var noColumn = new DataGridViewTextBoxColumn();
@@ -74,43 +89,33 @@ namespace PerpustakaanAppMVC.View.RoleView
 
         private void LoadRoles()
         {
-            dgvRole.Rows.Clear();
             roles = _controller.ReadAll();
 
-            foreach (var role in roles)
-            {
-                // Add a new row with values
-                int rowIndex = dgvRole.Rows.Add();
-                var row = dgvRole.Rows[rowIndex];
-
-                row.Cells["No"].Value = (rowIndex + 1).ToString();
-                row.Cells["Name"].Value = role.Name;
-                // The button columns don't need values since we're using UseColumnTextForButtonValue
-            }
+            // Display all roles initially
+            PerformSearch("");
         }
 
         private void btnTambah_Click(object sender, EventArgs e)
         {
-            var frm = new FrmEntryRole("Tambah Role", _controller);
+            var frm = new FrmEntryRole("Tambah Role", _FormMode.Create, _controller);
             frm.OnCreate += OnCreateEventHandler;
             frm.ShowDialog();
         }
 
         private void OnCreateEventHandler(Role role)
         {
-            roles.Add(role);
-
-            // Add a new row with values
-            int rowIndex = dgvRole.Rows.Add();
-            var row = dgvRole.Rows[rowIndex];
-
-            row.Cells["No"].Value = (rowIndex + 1).ToString();
-            row.Cells["Name"].Value = role.Name;
-            // The button columns don't need values since we're using UseColumnTextForButtonValue
+            // Reload the entire role list to ensure proper display
+            LoadRoles();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            if (!canEdit())
+            {
+                MessageBox.Show("Anda tidak memiliki izin untuk mengedit role.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgvRole.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Pilih data yang akan diubah");
@@ -123,20 +128,20 @@ namespace PerpustakaanAppMVC.View.RoleView
 
         private void OnUpdateEventHandler(Role role)
         {
-            if (_editingIndex < 0) return;
-
-            roles[_editingIndex] = role;
-
-            // Update the specific row in the grid
-            var row = dgvRole.Rows[_editingIndex];
-            row.Cells["Name"].Value = role.Name;
-            // The button columns don't need to be updated since they use static text
+            // Reload the entire role list to ensure proper display
+            LoadRoles();
 
             _editingIndex = -1;
         }
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
+            if (!canDelete())
+            {
+                MessageBox.Show("Anda tidak memiliki izin untuk menghapus role.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgvRole.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Pilih data yang akan dihapus");
@@ -149,35 +154,32 @@ namespace PerpustakaanAppMVC.View.RoleView
 
         private void DgvRole_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Check if the click was on the "Action" column
             if (e.ColumnIndex == dgvRole.Columns["Action"].Index && e.RowIndex >= 0)
             {
-                // Calculate which button was clicked based on mouse position
                 var cellRect = dgvRole.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                int totalButtons = 3; // View, Edit, Delete
-                int buttonWidth = cellRect.Width / totalButtons; // Divide cell width by number of buttons
-
-                // Get mouse position relative to the cell
                 Point mousePos = dgvRole.PointToClient(Control.MousePosition);
-
-                // Calculate which button region was clicked
                 int relativeX = mousePos.X - cellRect.Left;
 
-                if (relativeX < buttonWidth) // View button
+                int totalButtons = _allowActions.Count;
+                int buttonWidth = cellRect.Width / totalButtons;
+
+                int clickedIndex = relativeX / buttonWidth;
+                if (clickedIndex < 0 || clickedIndex >= totalButtons) return;
+
+                string action = _allowActions[clickedIndex];
+                var role = roles[e.RowIndex];
+
+                switch (action)
                 {
-                    // Get the corresponding role data
-                    var role = roles[e.RowIndex];
-                    ShowRoleData(role);
-                }
-                else if (relativeX < buttonWidth * 2) // Edit button
-                {
-                    // Handle edit button click
-                    EditRole(e.RowIndex);
-                }
-                else // Delete button
-                {
-                    // Handle delete button click
-                    DeleteRole(e.RowIndex);
+                    case "view":
+                        ShowRoleData(role);
+                        break;
+                    case "edit":
+                        EditRole(e.RowIndex);
+                        break;
+                    case "delete":
+                        DeleteRole(e.RowIndex);
+                        break;
                 }
             }
         }
@@ -193,7 +195,7 @@ namespace PerpustakaanAppMVC.View.RoleView
             _editingIndex = rowIndex;
             var role = roles[_editingIndex];
 
-            var frm = new FrmEntryRole("Edit Role", role, _controller);
+            var frm = new FrmEntryRole("Edit Role", _FormMode.Update, role, _controller);
             frm.OnUpdate += OnUpdateEventHandler;
             frm.ShowDialog();
         }
@@ -207,34 +209,44 @@ namespace PerpustakaanAppMVC.View.RoleView
             }
 
             var role = roles[rowIndex];
-            var confirm = MessageBox.Show($"Hapus role {role.Name}?", "Konfirmasi", MessageBoxButtons.YesNo);
+
+            // Check if the role is in use by any user
+            if (_controller.IsRoleInUse(role.Id))
+            {
+                MessageBox.Show($"Tidak dapat menghapus role '{role.Name}' karena sedang digunakan oleh satu atau lebih pengguna.",
+                    "Tidak Dapat Dihapus", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Hapus role {role.Name}?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirm == DialogResult.Yes)
             {
-                int result = _controller.Delete(role.Id);
-                if (result > 0)
+                try
                 {
-                    roles.RemoveAt(rowIndex);
-                    dgvRole.Rows.RemoveAt(rowIndex);
-
-                    // Update row numbers
-                    UpdateRowNumbers();
+                    int result = _controller.Delete(role.Id);
+                    if (result > 0)
+                    {
+                        // Reload the entire role list to ensure proper display
+                        LoadRoles();
+                        MessageBox.Show($"Role '{role.Name}' berhasil dihapus.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal menghapus role", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Gagal menghapus role", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Terjadi kesalahan saat menghapus role: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void ShowRoleData(Role role)
         {
-            // Show role details in a message box
-            string roleDetails = $"Role Details:\n\n" +
-                                $"ID: {role.Id}\n" +
-                                $"Name: {role.Name}";
-
-            MessageBox.Show(roleDetails, "Role Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var frm = new FrmEntryRole("View Role", _FormMode.View, role, _controller);
+            frm.ShowDialog();
         }
 
         private void UpdateRowNumbers()
@@ -251,60 +263,129 @@ namespace PerpustakaanAppMVC.View.RoleView
             {
                 e.Graphics.FillRectangle(new SolidBrush(dgvRole.DefaultCellStyle.BackColor), e.CellBounds);
 
-                // Define button dimensions
-                int totalButtons = 3; // View, Edit, Delete
+                int totalButtons = _allowActions.Count; // tombol sesuai akses
+                if (totalButtons == 0) return; // kalau gak ada akses
+
                 int buttonWidth = e.CellBounds.Width / totalButtons;
                 int buttonHeight = e.CellBounds.Height;
 
-                // Draw View button with light blue background
-                Rectangle viewRect = new Rectangle(e.CellBounds.Left, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightBlue))
+                for (int i = 0; i < totalButtons; i++)
                 {
-                    e.Graphics.FillRectangle(brush, viewRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, viewRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "View",
-                    e.CellStyle.Font,
-                    viewRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    string action = _allowActions[i];
+                    Rectangle rect = new Rectangle(e.CellBounds.Left + i * buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
+                    Color bgColor = Color.LightGray;
 
-                // Draw Edit button with light green background
-                Rectangle editRect = new Rectangle(e.CellBounds.Left + buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightGreen))
-                {
-                    e.Graphics.FillRectangle(brush, editRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, editRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Edit",
-                    e.CellStyle.Font,
-                    editRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    switch (action)
+                    {
+                        case "view": bgColor = Color.LightBlue; break;
+                        case "edit": bgColor = Color.LightGreen; break;
+                        case "delete": bgColor = Color.LightCoral; break;
+                    }
 
-                // Draw Delete button with light coral background
-                Rectangle deleteRect = new Rectangle(e.CellBounds.Left + buttonWidth * 2, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightCoral))
-                {
-                    e.Graphics.FillRectangle(brush, deleteRect);
+                    using (Brush brush = new SolidBrush(bgColor))
+                    {
+                        e.Graphics.FillRectangle(brush, rect);
+                    }
+
+                    ControlPaint.DrawBorder(e.Graphics, rect, Color.Gray, ButtonBorderStyle.Solid);
+                    TextRenderer.DrawText(
+                        e.Graphics,
+                        action.Substring(0, 1).ToUpper() + action.Substring(1),
+                        e.CellStyle.Font,
+                        rect,
+                        Color.Black,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
                 }
-                ControlPaint.DrawBorder(e.Graphics, deleteRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Delete",
-                    e.CellStyle.Font,
-                    deleteRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
 
                 e.Handled = true;
+            }
+        }
+
+        private void UcRole1_Load(object sender, EventArgs e)
+        {
+            lbRole.Text = "Role Management";
+
+            // Initialize search textbox
+            txtSearch.Text = "Cari nama role...";
+            txtSearch.ForeColor = Color.Gray;
+
+            string role = Session.SessionManager.GetCurrentUserRole();
+            var allowedRoles = new List<string> { "Admin" }; // Only Admin can manage roles
+
+            if (!allowedRoles.Contains(role))
+            {
+                btnTambah.Visible = false;
+            }
+        }
+
+        private bool canEdit()
+        {
+            return _userRole == "Admin";
+        }
+
+        private bool canDelete()
+        {
+            return _userRole == "Admin";
+        }
+
+        private bool canView()
+        {
+            return true;
+        }
+
+        private void AllowActionByRole()
+        {
+            _allowActions = new List<string>();
+
+            if (canView()) _allowActions.Add("view");
+            if (canEdit()) _allowActions.Add("edit");
+            if (canDelete()) _allowActions.Add("delete");
+        }
+
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtSearch.Text == "Cari nama role...")
+            {
+                txtSearch.Text = "";
+                txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Text = "Cari nama role...";
+                txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            // Avoid placeholder text
+            if (txtSearch.Text == "Cari nama role...") return;
+
+            string searchTerm = txtSearch.Text.ToLower();
+            PerformSearch(searchTerm);
+        }
+
+        private void PerformSearch(string searchTerm)
+        {
+            dgvRole.Rows.Clear();
+
+            // Filter roles based on search term
+            var filteredRoles = roles.Where(r =>
+                r.Name.ToLower().Contains(searchTerm)
+            ).ToList();
+
+            foreach (var role in filteredRoles)
+            {
+                int rowIndex = dgvRole.Rows.Add();
+                var row = dgvRole.Rows[rowIndex];
+
+                row.Cells["No"].Value = (rowIndex + 1).ToString();
+                row.Cells["Name"].Value = role.Name;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using PerpustakaanAppMVC.Controller;
+using PerpustakaanAppMVC.Controller;
 using PerpustakaanAppMVC.Model.Entity;
 using PerpustakaanAppMVC.View.TaskViewMain;
 using System;
@@ -15,7 +15,6 @@ namespace PerpustakaanAppMVC.View.ProjectView
 {
     public partial class UcProject : BaseUserControl
     {
-        public override string PageTitle => "Manajemen Project";
         private ProjectController _controller = new ProjectController();
         private List<Project> projects = new List<Project>();
         private int _editingIndex = -1;
@@ -47,7 +46,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
             dgvProject.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // **Set background color header**
-            dgvProject.EnableHeadersVisualStyles = false; 
+            dgvProject.EnableHeadersVisualStyles = false;
             dgvProject.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#3C467B"); // warna latar belakang
             dgvProject.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#FFFFFF"); // warna teks
             dgvProject.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
@@ -117,44 +116,20 @@ namespace PerpustakaanAppMVC.View.ProjectView
             dgvProject.RowTemplate.Height = 20;
 
             LoadProjects();
-
-            txtSearch.Text = "Cari nama project...";
-            txtSearch.ForeColor = Color.Gray;
         }
 
         private void LoadProjects()
         {
-            dgvProject.Rows.Clear();
             projects = _controller.GetAllProjects(_userRole, _userLoginId.ToString());
-            foreach (var project in projects)
-            {
-                // Add a new row with values
-                int rowIndex = dgvProject.Rows.Add();
-                var row = dgvProject.Rows[rowIndex];
-
-                row.Cells["No"].Value = (rowIndex + 1).ToString();
-                row.Cells["Nama"].Value = project.Nama;
-                row.Cells["StartDate"].Value = project.StartDate.ToShortDateString();
-                row.Cells["EndDate"].Value = project.EndDate.ToShortDateString();
-                row.Cells["Status"].Value = project.Status;
-                row.Cells["Deskripsi"].Value = project.Deskripsi;
-            }
+            
+            // Display all projects initially
+            PerformSearch("");
         }
 
         private void OnCreateEventHandler(Project project)
         {
-            projects.Add(project);
-
-            // Add a new row with values
-            int rowIndex = dgvProject.Rows.Add();
-            var row = dgvProject.Rows[rowIndex];
-
-            row.Cells["No"].Value = (rowIndex + 1).ToString();
-            row.Cells["Nama"].Value = project.Nama;
-            row.Cells["StartDate"].Value = project.StartDate.ToShortDateString();
-            row.Cells["EndDate"].Value = project.EndDate.ToShortDateString();
-            row.Cells["Status"].Value = project.Status;
-            row.Cells["Deskripsi"].Value = project.Deskripsi;
+            // Reload the entire project list to ensure proper display
+            LoadProjects();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -171,17 +146,8 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void OnUpdateEventHandler(Project project)
         {
-            if (_editingIndex < 0) return;
-
-            projects[_editingIndex] = project;
-
-            // Update the specific row in the grid
-            var row = dgvProject.Rows[_editingIndex];
-            row.Cells["Nama"].Value = project.Nama;
-            row.Cells["StartDate"].Value = project.StartDate.ToShortDateString();
-            row.Cells["EndDate"].Value = project.EndDate.ToShortDateString();
-            row.Cells["Status"].Value = project.Status;
-            row.Cells["Deskripsi"].Value = project.Deskripsi;
+            // Reload the entire project list to ensure proper display
+            LoadProjects();
 
             _editingIndex = -1;
         }
@@ -209,7 +175,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
             _editingIndex = rowIndex;
             var project = projects[_editingIndex];
 
-            var frm = new FrmEntryProject("Edit Project", _FormMode.Update, project);
+            var frm = new FrmEntryProject("Edit Project", "update", project);
             frm.OnUpdate += OnUpdateEventHandler;
             frm.ShowDialog();
         }
@@ -223,22 +189,36 @@ namespace PerpustakaanAppMVC.View.ProjectView
             }
 
             var project = projects[rowIndex];
-            var confirm = MessageBox.Show($"Hapus project {project.Nama}?", "Konfirmasi", MessageBoxButtons.YesNo);
+
+            // Check if the project has associated tasks
+            if (_controller.IsProjectInUse(project.Id))
+            {
+                MessageBox.Show($"Tidak dapat menghapus project '{project.Nama}' karena sedang digunakan oleh satu atau lebih task.",
+                    "Tidak Dapat Dihapus", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Hapus project {project.Nama}?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirm == DialogResult.Yes)
             {
-                int result = _controller.Delete(project.Id);
-                if (result > 0)
+                try
                 {
-                    projects.RemoveAt(rowIndex);
-                    dgvProject.Rows.RemoveAt(rowIndex);
-
-                    // Update row numbers
-                    UpdateRowNumbers();
+                    int result = _controller.Delete(project.Id);
+                    if (result > 0)
+                    {
+                        // Reload the entire project list to ensure proper display
+                        LoadProjects();
+                        MessageBox.Show($"Project '{project.Nama}' berhasil dihapus.", "Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal menghapus project", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Gagal menghapus project", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Terjadi kesalahan saat menghapus project: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -259,17 +239,10 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void ShowProjectData(Project project)
         {
-            var frm = new FrmEntryProject("View Project", _FormMode.View, project);
+            var frm = new FrmEntryProject("View Project", "view", project);
             frm.ShowDialog();
         }
 
-        private void UpdateRowNumbers()
-        {
-            for (int i = 0; i < dgvProject.Rows.Count; i++)
-            {
-                dgvProject.Rows[i].Cells["No"].Value = (i + 1).ToString();
-            }
-        }
 
         private void txtSearch_Enter(object sender, EventArgs e)
         {
@@ -291,14 +264,18 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-
-            // hindari placeholder text
+            // Avoid placeholder text
             if (txtSearch.Text == "Cari nama project...") return;
 
             string searchTerm = txtSearch.Text.ToLower();
+            PerformSearch(searchTerm);
+        }
+
+        private void PerformSearch(string searchTerm)
+        {
             dgvProject.Rows.Clear();
 
-            // filter
+            // Filter projects based on search term
             var filteredProjects = projects.Where(p =>
                 p.Nama.ToLower().Contains(searchTerm) ||
                 p.Deskripsi.ToLower().Contains(searchTerm) ||
@@ -320,7 +297,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void btnTambah_Click_1(object sender, EventArgs e)
         {
-            var frm = new FrmEntryProject("Tambah Project", _FormMode.Create);
+            var frm = new FrmEntryProject("Tambah Project", "create");
             frm.OnCreate += OnCreateEventHandler;
             frm.ShowDialog();
 
@@ -335,6 +312,10 @@ namespace PerpustakaanAppMVC.View.ProjectView
             {
                 btnTambah.Visible = false;
             }
+            
+            // Initialize search textbox
+            txtSearch.Text = "Cari nama project...";
+            txtSearch.ForeColor = Color.Gray;
         }
 
 
@@ -449,6 +430,5 @@ namespace PerpustakaanAppMVC.View.ProjectView
                 }
             }
         }
-
     }
 }

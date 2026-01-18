@@ -39,11 +39,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtDeskripsi = new System.Windows.Forms.TextBox();
             this.btnSimpan = new System.Windows.Forms.Button();
+            this.lbForm = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtNama
             // 
-            this.txtNama.Location = new System.Drawing.Point(72, 78);
+            this.txtNama.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNama.Location = new System.Drawing.Point(69, 120);
             this.txtNama.Multiline = true;
             this.txtNama.Name = "txtNama";
             this.txtNama.Size = new System.Drawing.Size(150, 22);
@@ -52,7 +54,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(69, 55);
+            this.label1.Location = new System.Drawing.Point(66, 97);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 16);
             this.label1.TabIndex = 1;
@@ -61,7 +63,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(267, 55);
+            this.label2.Location = new System.Drawing.Point(238, 97);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 16);
             this.label2.TabIndex = 2;
@@ -70,14 +72,14 @@
             // cmbStatus
             // 
             this.cmbStatus.FormattingEnabled = true;
-            this.cmbStatus.Location = new System.Drawing.Point(270, 78);
+            this.cmbStatus.Location = new System.Drawing.Point(241, 120);
             this.cmbStatus.Name = "cmbStatus";
             this.cmbStatus.Size = new System.Drawing.Size(150, 24);
             this.cmbStatus.TabIndex = 3;
             // 
             // dateStart
             // 
-            this.dateStart.Location = new System.Drawing.Point(72, 141);
+            this.dateStart.Location = new System.Drawing.Point(69, 183);
             this.dateStart.Name = "dateStart";
             this.dateStart.Size = new System.Drawing.Size(150, 22);
             this.dateStart.TabIndex = 4;
@@ -85,7 +87,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(69, 118);
+            this.label3.Location = new System.Drawing.Point(66, 160);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(93, 16);
             this.label3.TabIndex = 5;
@@ -94,7 +96,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(267, 118);
+            this.label4.Location = new System.Drawing.Point(238, 160);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(107, 16);
             this.label4.TabIndex = 7;
@@ -102,7 +104,7 @@
             // 
             // dateEnd
             // 
-            this.dateEnd.Location = new System.Drawing.Point(270, 141);
+            this.dateEnd.Location = new System.Drawing.Point(241, 183);
             this.dateEnd.Name = "dateEnd";
             this.dateEnd.Size = new System.Drawing.Size(150, 22);
             this.dateEnd.TabIndex = 6;
@@ -110,7 +112,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(69, 184);
+            this.label5.Location = new System.Drawing.Point(66, 226);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 16);
             this.label5.TabIndex = 9;
@@ -119,29 +121,43 @@
             // txtDeskripsi
             // 
             this.txtDeskripsi.AcceptsReturn = true;
-            this.txtDeskripsi.Location = new System.Drawing.Point(72, 207);
+            this.txtDeskripsi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDeskripsi.Location = new System.Drawing.Point(69, 249);
             this.txtDeskripsi.Multiline = true;
             this.txtDeskripsi.Name = "txtDeskripsi";
-            this.txtDeskripsi.Size = new System.Drawing.Size(348, 115);
+            this.txtDeskripsi.Size = new System.Drawing.Size(322, 115);
             this.txtDeskripsi.TabIndex = 8;
             // 
             // btnSimpan
             // 
             this.btnSimpan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
+            this.btnSimpan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSimpan.ForeColor = System.Drawing.Color.White;
-            this.btnSimpan.Location = new System.Drawing.Point(72, 343);
+            this.btnSimpan.Location = new System.Drawing.Point(69, 387);
             this.btnSimpan.Name = "btnSimpan";
-            this.btnSimpan.Size = new System.Drawing.Size(348, 54);
+            this.btnSimpan.Size = new System.Drawing.Size(322, 54);
             this.btnSimpan.TabIndex = 10;
             this.btnSimpan.Text = "Simpan";
             this.btnSimpan.UseVisualStyleBackColor = false;
             this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
             // 
+            // lbForm
+            // 
+            this.lbForm.AutoSize = true;
+            this.lbForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.1194F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbForm.Location = new System.Drawing.Point(63, 36);
+            this.lbForm.Name = "lbForm";
+            this.lbForm.Size = new System.Drawing.Size(128, 36);
+            this.lbForm.TabIndex = 11;
+            this.lbForm.Text = "Tambah";
+            // 
             // FrmEntryProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 503);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(458, 516);
+            this.Controls.Add(this.lbForm);
             this.Controls.Add(this.btnSimpan);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDeskripsi);
@@ -153,9 +169,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNama);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmEntryProject";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmEntryProject";
+            this.Load += new System.EventHandler(this.FrmEntryProject_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,5 +192,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtDeskripsi;
         private System.Windows.Forms.Button btnSimpan;
+        private System.Windows.Forms.Label lbForm;
     }
 }

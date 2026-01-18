@@ -130,5 +130,41 @@ namespace PerpustakaanAppMVC.Model.Repository
                 return cmd.ExecuteNonQuery();
             }
         }
+
+        public User GetByEmail(string email)
+        {
+            User user = null;
+            string sql = @"SELECT u.id, u.name, u.email, u.password, u.status, u.role_id, r.name AS role_name
+                           FROM Users u
+                           JOIN Roles r ON u.role_id = r.id
+                           WHERE u.email = @email;";
+            using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@email", email);
+                try
+                {
+                    using (SQLiteDataReader dtr = cmd.ExecuteReader())
+                    {
+                        if (dtr.Read())
+                        {
+                            user = new User();
+                            user.Id = Convert.ToInt32(dtr["id"]);
+                            user.Name = dtr["name"].ToString();
+                            user.Email = dtr["email"].ToString();
+                            user.Password = dtr["password"].ToString();
+                            user.Status = Convert.ToInt32(dtr["status"]);
+                            user.RoleId = Convert.ToInt32(dtr["role_id"]);
+                            user.RoleName = dtr["role_name"].ToString();
+                        }
+                    }
+                    return user;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("GetByEmail User Error: " + ex.Message);
+                    return null;
+                }
+            }
+        }
     }
 }

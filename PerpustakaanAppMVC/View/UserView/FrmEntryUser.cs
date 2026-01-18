@@ -15,6 +15,13 @@ using System.Windows.Forms;
 namespace PerpustakaanAppMVC.View.UserView
 {
 
+    public enum FormMode
+    {
+        Create,
+        Update,
+        View
+    }
+
     public delegate void CreateUpdateEventHandler(User user);
 
     public partial class FrmEntryUser : Form
@@ -25,7 +32,7 @@ namespace PerpustakaanAppMVC.View.UserView
 
         private UserController _controller;
 
-        private bool isNewData = true;
+        private _FormMode _mode;
 
         private User user;
 
@@ -34,9 +41,10 @@ namespace PerpustakaanAppMVC.View.UserView
         {
             InitializeComponent();
         }
-        public FrmEntryUser(string title, UserController controller) : this()
+        public FrmEntryUser(string title, _FormMode mode, UserController controller) : this()
         {
             this.Text = title;
+            _mode = mode;
 
             _controller = controller;
 
@@ -54,11 +62,11 @@ namespace PerpustakaanAppMVC.View.UserView
             }
         }
 
-        public FrmEntryUser(string title, User obj, UserController controller) : this()
+        public FrmEntryUser(string title, _FormMode mode, User obj, UserController controller) : this()
         {
             this.Text = title;
+            _mode = mode;
             _controller = controller;
-            isNewData = false;
             user = obj;
 
 
@@ -67,37 +75,114 @@ namespace PerpustakaanAppMVC.View.UserView
             txtPassword.Text = user.Password;
             cmbRole.SelectedValue = user.RoleId;
             chkAktif.Checked = user.Status == 1;
+
+            if (_mode == _FormMode.View) { setViewMode(); }
+        }
+
+        private void setViewMode()
+        {
+            txtName.ReadOnly = true;
+            txtEmail.ReadOnly = true;
+            txtPassword.ReadOnly = true;
+            cmbRole.Enabled = false;
+            chkAktif.Enabled = false;
+            btnSimpan.Visible = false;
+
+            // Hide password field in view mode
+            lbPassword.Visible = false;
+            txtPassword.Visible = false;
+        }
+
+        private void setEditMode()
+        {
+            txtName.ReadOnly = false;
+            txtEmail.ReadOnly = false;
+            txtPassword.ReadOnly = false;
+            cmbRole.Enabled = true;
+            chkAktif.Enabled = true;
+            btnSimpan.Visible = true;
+
+            // Hide password field in edit mode
+            lbPassword.Visible = false;
+            txtPassword.Visible = false;
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
             try
             {
-                if (isNewData) user = new User();
+                // Validate email format
+                if (!IsValidEmail(txtEmail.Text))
+                {
+                    MessageBox.Show("Email format tidak valid.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Check if email already exists (for Create mode or Update mode when email changed)
+                if (_mode == _FormMode.Create || (user != null && user.Email != txtEmail.Text))
+                {
+                    var existingUser = _controller.GetByEmail(txtEmail.Text);
+                    if (existingUser != null)
+                    {
+                        MessageBox.Show("Email sudah digunakan oleh pengguna lain.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
+                if (_mode == _FormMode.Create) user = new User();
 
                 user.Name = txtName.Text;
                 user.Email = txtEmail.Text;
-                user.Password = txtPassword.Text;
+                // Only update password if it's not empty (for update mode)
+                if (!string.IsNullOrEmpty(txtPassword.Text))
+                {
+                    user.Password = txtPassword.Text;
+                }
                 user.RoleId = (int)cmbRole.SelectedValue;
                 user.Status = chkAktif.Checked ? 1 : 0;
 
-                int result = isNewData
+                int result = _mode == _FormMode.Create
                     ? _controller.Create(user)
                     : _controller.Update(user);
 
                 if (result > 0)
                 {
-                    if (isNewData)
+                    if (_mode == _FormMode.Create)
                         OnCreate?.Invoke(user);
                     else
                         OnUpdate?.Invoke(user);
 
                     Close();
                 }
+                else
+                {
+                    MessageBox.Show("Operasi gagal. Silakan coba lagi.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                // Check for specific database constraint violations
+                if (ex.Message.Contains("UNIQUE constraint failed") || ex.Message.Contains("duplicate"))
+                {
+                    MessageBox.Show("Email sudah digunakan oleh pengguna lain.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -105,14 +190,33 @@ namespace PerpustakaanAppMVC.View.UserView
         {
             LoadRoles();
 
-            if (!isNewData)
+            if (_mode == _FormMode.Update || _mode == _FormMode.View)
             {
                 txtName.Text = user.Name;
                 txtEmail.Text = user.Email;
-                txtPassword.Text = user.Password;
                 cmbRole.SelectedValue = user.RoleId;
                 chkAktif.Checked = user.Status == 1;
             }
+
+            // Apply mode-specific UI settings
+            if (_mode == _FormMode.View)
+            {
+                setViewMode();
+                lbForm.Text = "View User";
+            }
+            else if (_mode == _FormMode.Update)
+            {
+                setEditMode();
+                lbForm.Text = "Edit User";
+            }
+            else if (_mode == _FormMode.Create)
+            {
+                // For create mode, show all fields
+                lbPassword.Visible = true;
+                txtPassword.Visible = true;
+                lbForm.Text = "Create User";
+            }
         }
+
     }
 }

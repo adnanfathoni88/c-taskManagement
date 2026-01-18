@@ -63,13 +63,40 @@ namespace PerpustakaanAppMVC.Controller
             }
         }
 
-        // get total project 
-        public int GetTotalProjects(string userId = null)
+        // get total project
+        public int GetTotalProjects(int userId, string roleName)
         {
             using (var context = new Model.Context.DbContext())
             {
                 var _repo = new ProjectRepository(context);
-                return _repo.GetTotalProjects(userId);
+                return _repo.GetTotalProjects(userId, roleName);
+            }
+        }
+
+        public Project GetByName(string projectName)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new ProjectRepository(context);
+                return _repo.GetByName(projectName);
+            }
+        }
+
+        public Project GetByNameExcludeId(string projectName, int excludeId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new ProjectRepository(context);
+                return _repo.GetByNameExcludeId(projectName, excludeId);
+            }
+        }
+
+        public bool IsProjectInUse(int projectId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new ProjectRepository(context);
+                return _repo.IsProjectInUse(projectId);
             }
         }
     }

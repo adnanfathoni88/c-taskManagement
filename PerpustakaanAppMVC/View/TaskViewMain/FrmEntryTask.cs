@@ -1,5 +1,6 @@
 using PerpustakaanAppMVC.Controller;
 using PerpustakaanAppMVC.Model.Entity;
+using PerpustakaanAppMVC.Session;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,30 +13,43 @@ using System.Windows.Forms;
 
 namespace PerpustakaanAppMVC.View.TaskViewMain
 {
+
+    public enum _FormMode
+    {
+        Create,
+        Update,
+        View
+    }
+
     public partial class FrmEntryTask : Form
     {
         private TaskController _controller = new TaskController();
-        private string _formMode;
+        private _FormMode _formMode;
         private TaskItem _currentTask;
         private int? _projectIdFilter;
+        private string _roleName;
 
         // Event for handling create/update operations
         public event Action<TaskItem> OnCreate;
         public event Action<TaskItem> OnUpdate;
 
-        public FrmEntryTask(string formMode, TaskController controller, int? projectIdFilter = null)
+        public FrmEntryTask(string formCaption, _FormMode formMode, TaskController controller, int? projectIdFilter = null)
         {
             InitializeComponent();
             _formMode = formMode;
             _controller = controller;
             _projectIdFilter = projectIdFilter;
-            this.Text = formMode;
+            this.Text = formCaption;
+
+            // get current user role
+            _roleName = SessionManager.GetCurrentUserRole();
 
             LoadProjectsAndUsers();
 
             // Set default values for new task
             cmbStatus.SelectedIndex = 0; // "Pending"
             cmbPriority.SelectedIndex = 1; // "Medium"
+
 
             if (_projectIdFilter.HasValue)
             {
@@ -51,12 +65,65 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                 }
                 cmbProject.Enabled = false; // Disable if it's filtered by project
             }
+
+            SetFormMode();
         }
 
-        public FrmEntryTask(string formMode, TaskItem task, TaskController controller) : this(formMode, controller)
+        public FrmEntryTask(string formCaption, _FormMode formMode, TaskItem task, TaskController controller) : this(formCaption, formMode, controller)
         {
             _currentTask = task;
             FillFormData();
+            SetFormMode();
+        }
+
+        private void SetFormMode()
+        {
+            switch (_formMode)
+            {
+                case _FormMode.Create:
+                    btnSimpan.Text = "Tambah";
+                    lbForm.Text = "Add Task";
+                    break;
+                case _FormMode.Update:
+                    btnSimpan.Text = "Ubah";
+                    lbForm.Text = "Edit Task";
+                    cmbProject.Enabled = false;
+
+                    // jika bukan admin dan project manager, hanya bisa ubah status
+                    if (_roleName != "Admin" && _roleName != "Project Manager")
+                    {
+                        txtTitle.ReadOnly = true;
+                        txtDescription.ReadOnly = true;
+                        cmbPriority.Enabled = false;
+                        cmbAssignedTo.Enabled = false;
+                        dtpDeadline.Enabled = false;
+
+                        // hide priority label
+                        lbPriority.Visible = false;
+                        cmbPriority.Visible = false;
+                        lbAssigned.Visible = false;
+                        cmbAssignedTo.Visible = false;
+                        lbProject.Visible = false;
+                        cmbProject.Visible = false;
+                        lbDeadline.Visible = false;
+                        dtpDeadline.Visible = false;
+                    }
+
+                    break;
+                case _FormMode.View:
+                    btnSimpan.Visible = false;
+                    lbForm.Text = "View Task";
+
+                    // Disable all input controls
+                    txtTitle.ReadOnly = true;
+                    txtDescription.ReadOnly = true;
+                    cmbStatus.Enabled = false;
+                    cmbPriority.Enabled = false;
+                    cmbProject.Enabled = false;
+                    cmbAssignedTo.Enabled = false;
+                    dtpDeadline.Enabled = false;
+                    break;
+            }
         }
 
         private void LoadProjectsAndUsers()
@@ -139,12 +206,16 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                 ValidateInput();
                 var task = CollectFormData();
 
-                if (_formMode.Contains("Tambah"))
+                if (_formMode == _FormMode.Create)
                 {
                     int newId = _controller.Create(task);
                     if (newId > 0)
                     {
                         task.Id = newId;
+
+                        // Create a log entry for the task creation
+                        CreateLogEntry(newId, "Created", "Task created successfully");
+
                         OnCreate?.Invoke(task);
                         MessageBox.Show("Data tugas berhasil ditambahkan", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -154,11 +225,14 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                         MessageBox.Show("Gagal menambahkan data tugas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                else if (_formMode.Contains("Edit") && _currentTask != null)
+                else if (_formMode == _FormMode.Update && _currentTask != null)
                 {
                     int result = _controller.Update(task);
                     if (result > 0)
                     {
+                        // Create a log entry for the task update
+                        CreateLogEntry(task.Id,task.Status, "Task status updated to " + task.Status);
+
                         OnUpdate?.Invoke(task);
                         MessageBox.Show("Data tugas berhasil diubah", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
@@ -175,9 +249,20 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             }
         }
 
-        private void btnBatal_Click(object sender, EventArgs e)
+        private void CreateLogEntry(int taskId, string action, string description)
         {
-            this.Close();
+            var logController = new LogController();
+            var log = new Model.Entity.Log
+            {
+                TaskId = taskId,
+                Action = action,
+                UserId = Session.SessionManager.GetCurrentUserId(), // Assuming session manager exists
+                Description = description,
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            logController.Create(log);
         }
+
     }
 }

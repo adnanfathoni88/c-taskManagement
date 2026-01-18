@@ -109,5 +109,52 @@ namespace PerpustakaanAppMVC.Model.Repository
                 return result;
             }
         }
+
+        public bool IsRoleInUse(int roleId)
+        {
+            string sql = @"SELECT COUNT(*) FROM Users WHERE role_id = @roleId;";
+            using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@roleId", roleId);
+                try
+                {
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("IsRoleInUse Error: " + ex.Message);
+                    return false; // Assume not in use if there's an error
+                }
+            }
+        }
+
+        public Role GetByName(string roleName)
+        {
+            string sql = @"SELECT id, name FROM Roles WHERE name = @name COLLATE NOCASE;";
+            using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@name", roleName);
+                try
+                {
+                    using (SQLiteDataReader dtr = cmd.ExecuteReader())
+                    {
+                        if (dtr.Read())
+                        {
+                            Role role = new Role();
+                            role.Id = Convert.ToInt32(dtr["id"]);
+                            role.Name = dtr["name"].ToString();
+                            return role;
+                        }
+                    }
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("GetByName Role Error: " + ex.Message);
+                    return null;
+                }
+            }
+        }
     }
 }

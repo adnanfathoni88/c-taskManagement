@@ -14,34 +14,38 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
 {
     public partial class UcTask : BaseUserControl
     {
-        public override string PageTitle
-        {
-            get
-            {
-                return _projectNameFilter != null ?
-                    $"Tugas untuk Project: {_projectNameFilter}" :
-                    "Manajemen Tugas";
-            }
-        }
         private TaskController _controller = new TaskController();
         private List<TaskItem> tasks = new List<TaskItem>();
         private int _editingIndex = -1;
         private int? _projectIdFilter = null;
         private string _projectNameFilter = null;
 
+        private int _userLoginId;
+        private string _userRole;
+        private List<string> _allowActions;
+
         public UcTask()
         {
+            _userLoginId = Session.SessionManager.GetCurrentUserId();
+            _userRole = Session.SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
             InitDataGridView();
+            AllowActionByRole();
         }
 
         // Constructor to initialize with a specific project
         public UcTask(int projectId, string projectName)
         {
+            _userLoginId = Session.SessionManager.GetCurrentUserId();
+            _userRole = Session.SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
             _projectIdFilter = projectId;
             _projectNameFilter = projectName;
+
             InitDataGridView();
+            AllowActionByRole();
         }
 
         private void InitDataGridView()
@@ -53,6 +57,12 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             dgvTask.AllowUserToDeleteRows = false;
             dgvTask.MultiSelect = false;
             dgvTask.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Make columns fill available space
+
+            // **Set background color header**
+            dgvTask.EnableHeadersVisualStyles = false;
+            dgvTask.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#3C467B"); // warna latar belakang
+            dgvTask.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#FFFFFF"); // warna teks
+            dgvTask.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 
             // Add columns
             var noColumn = new DataGridViewTextBoxColumn();
@@ -135,65 +145,45 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
 
         private void LoadTasks()
         {
-            dgvTask.Rows.Clear();
-
             if (_projectIdFilter.HasValue)
             {
-                // Load tasks for specific project
-                tasks = _controller.GetByProjectId(_projectIdFilter.Value);
+                tasks = _controller.GetTasksByRole(_userLoginId, _userRole, _projectIdFilter.Value);
             }
             else
             {
-                // Load all tasks
-                tasks = _controller.ReadAll();
+                MessageBox.Show("Project Tidak Ada");
             }
 
-            foreach (var t in tasks)
+            // Store the current search term before reloading
+            string currentSearch = txtSearch.Text;
+            if (currentSearch == "Cari nama tugas...")
             {
-                // Add a new row with values
-                int rowIndex = dgvTask.Rows.Add();
-                var row = dgvTask.Rows[rowIndex];
-
-                row.Cells["No"].Value = (rowIndex + 1).ToString();
-                row.Cells["Title"].Value = t.Title;
-                row.Cells["Description"].Value = t.Description;
-                row.Cells["Status"].Value = t.Status;
-                row.Cells["Priority"].Value = t.Priority;
-                row.Cells["Project"].Value = t.ProjectName;
-                row.Cells["AssignedTo"].Value = t.AssignedToName;
-                row.Cells["Deadline"].Value = t.Deadline;
-                // The button columns don't need values since we're using UseColumnTextForButtonValue
+                currentSearch = "";
             }
+            else
+            {
+                currentSearch = currentSearch.ToLower();
+            }
+
+            // Display tasks based on current search filter
+            PerformSearch(currentSearch);
         }
 
-        private void btnTambah_Click(object sender, EventArgs e)
-        {
-            var frm = new FrmEntryTask("Tambah Tugas", _controller, _projectIdFilter);
-            frm.OnCreate += OnCreateEventHandler;
-            frm.ShowDialog();
-        }
 
         private void OnCreateEventHandler(TaskItem task)
         {
-            tasks.Add(task);
-
-            // Add a new row with values
-            int rowIndex = dgvTask.Rows.Add();
-            var row = dgvTask.Rows[rowIndex];
-
-            row.Cells["No"].Value = (rowIndex + 1).ToString();
-            row.Cells["Title"].Value = task.Title;
-            row.Cells["Description"].Value = task.Description;
-            row.Cells["Status"].Value = task.Status;
-            row.Cells["Priority"].Value = task.Priority;
-            row.Cells["Project"].Value = task.ProjectName;
-            row.Cells["AssignedTo"].Value = task.AssignedToName;
-            row.Cells["Deadline"].Value = task.Deadline;
-            // The button columns don't need values since we're using UseColumnTextForButtonValue
+            // Reload all tasks to ensure ProjectName and AssignedToName are properly populated
+            LoadTasks();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            if (!canEdit())
+            {
+                MessageBox.Show("Anda tidak memiliki izin untuk mengedit tugas.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgvTask.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Pilih data yang akan diubah");
@@ -208,24 +198,20 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
         {
             if (_editingIndex < 0) return;
 
-            tasks[_editingIndex] = task;
-
-            // Update the specific row in the grid
-            var row = dgvTask.Rows[_editingIndex];
-            row.Cells["Title"].Value = task.Title;
-            row.Cells["Description"].Value = task.Description;
-            row.Cells["Status"].Value = task.Status;
-            row.Cells["Priority"].Value = task.Priority;
-            row.Cells["Project"].Value = task.ProjectName;
-            row.Cells["AssignedTo"].Value = task.AssignedToName;
-            row.Cells["Deadline"].Value = task.Deadline;
-            // The button columns don't need to be updated since they use static text
+            // Reload all tasks to ensure ProjectName and AssignedToName are properly populated
+            LoadTasks();
 
             _editingIndex = -1;
         }
 
         private void btnHapus_Click(object sender, EventArgs e)
         {
+            if (!canDelete())
+            {
+                MessageBox.Show("Anda tidak memiliki izin untuk menghapus tugas.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgvTask.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Pilih data yang akan dihapus");
@@ -236,60 +222,55 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             DeleteTask(index);
         }
 
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            if (dgvTask.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Pilih data yang akan ditambahkan lognya");
-                return;
-            }
-
-            var index = dgvTask.SelectedRows[0].Index;
-            // Show log form
-            ShowTaskLog(index);
-        }
 
         private void DgvTask_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Check if the click was on the "Action" column
             if (e.ColumnIndex == dgvTask.Columns["Action"].Index && e.RowIndex >= 0)
             {
-                // Calculate which button was clicked based on mouse position
                 var cellRect = dgvTask.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                int totalButtons = 5; // View, Edit, Delete, Log, View Log
-                int buttonWidth = cellRect.Width / totalButtons; // Divide cell width by number of buttons
-
-                // Get mouse position relative to the cell
                 Point mousePos = dgvTask.PointToClient(Control.MousePosition);
-
-                // Calculate which button region was clicked
                 int relativeX = mousePos.X - cellRect.Left;
 
-                if (relativeX < buttonWidth) // View button
+                var task = tasks[e.RowIndex];
+
+                if (_allowActions.Count == 0)
                 {
-                    // Get the corresponding task data
-                    var task = tasks[e.RowIndex];
-                    ShowTaskData(task);
-                }
-                else if (relativeX < buttonWidth * 2) // Edit button
-                {
-                    // Handle edit button click
-                    EditTask(e.RowIndex);
-                }
-                else if (relativeX < buttonWidth * 3) // Delete button
-                {
-                    // Handle delete button click
-                    DeleteTask(e.RowIndex);
-                }
-                else if (relativeX < buttonWidth * 4) // Log button
-                {
-                    // Handle log button click
-                    ShowTaskLog(e.RowIndex);
-                }
-                else // View Log button
-                {
+                    // Only View Log button is available
                     // Handle view log button click
                     ViewTaskLog(e.RowIndex);
+                }
+                else
+                {
+                    int totalButtons = _allowActions.Count + 1; // +1 for View Log
+                    int buttonWidth = cellRect.Width / totalButtons;
+
+                    int clickedIndex = relativeX / buttonWidth;
+
+                    if (clickedIndex < 0 || clickedIndex >= totalButtons) return;
+
+                    if (clickedIndex < _allowActions.Count)
+                    {
+                        // Handle dynamic actions (view, edit, delete)
+                        string action = _allowActions[clickedIndex];
+
+                        switch (action)
+                        {
+                            case "view":
+                                ShowTaskData(task);
+                                break;
+                            case "edit":
+                                EditTask(e.RowIndex);
+                                break;
+                            case "delete":
+                                DeleteTask(e.RowIndex);
+                                break;
+                        }
+                    }
+                    else if (clickedIndex == _allowActions.Count) // View Log button
+                    {
+                        // Handle view log button click
+                        ViewTaskLog(e.RowIndex);
+                    }
                 }
             }
         }
@@ -305,7 +286,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             _editingIndex = rowIndex;
             var task = tasks[_editingIndex];
 
-            var frm = new FrmEntryTask("Edit Tugas", task, _controller);
+            var frm = new FrmEntryTask("Edit Tugas", _FormMode.Update, task, _controller);
             frm.OnUpdate += OnUpdateEventHandler;
             frm.ShowDialog();
         }
@@ -326,11 +307,11 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
                 int result = _controller.Delete(task.Id);
                 if (result > 0)
                 {
-                    tasks.RemoveAt(rowIndex);
-                    dgvTask.Rows.RemoveAt(rowIndex);
+                    // Create a log entry for the task deletion
+                    CreateLogEntry(task.Id, "Deleted", $"Task '{task.Title}' deleted by user {_userLoginId}");
 
-                    // Update row numbers
-                    UpdateRowNumbers();
+                    // Reload all tasks to ensure the list is properly updated
+                    LoadTasks();
                 }
                 else
                 {
@@ -339,55 +320,27 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             }
         }
 
-        private void ShowTaskLog(int rowIndex)
+        private void CreateLogEntry(int taskId, string action, string description)
         {
-            if (rowIndex < 0 || rowIndex >= tasks.Count)
+            var logController = new LogController();
+            var log = new Model.Entity.Log
             {
-                MessageBox.Show("Invalid task selection");
-                return;
-            }
-
-            var task = tasks[rowIndex];
-
-            // Open the log entry form for this task
-            var frm = new FrmEntryLog("Tambah Log", task.Id);
-            frm.OnCreate += (log) => {
-                // Optionally refresh or show success message
-                MessageBox.Show($"Log berhasil ditambahkan untuk tugas {task.Title}", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                TaskId = taskId,
+                Action = action,
+                UserId = _userLoginId,
+                Description = description,
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
             };
 
-            frm.ShowDialog();
+            logController.Create(log);
         }
 
-        private void ViewTaskLog(int rowIndex)
-        {
-            if (rowIndex < 0 || rowIndex >= tasks.Count)
-            {
-                MessageBox.Show("Invalid task selection");
-                return;
-            }
-
-            var task = tasks[rowIndex];
-
-            // Open the log viewer form for this task
-            var frm = new FrmLogViewer(task.Id, task.Title);
-            frm.ShowDialog();
-        }
 
         private void ShowTaskData(TaskItem task)
         {
-            // Show task details in a message box
-            string taskDetails = $"Task Details:\n\n" +
-                                $"ID: {task.Id}\n" +
-                                $"Title: {task.Title}\n" +
-                                $"Description: {task.Description}\n" +
-                                $"Status: {task.Status}\n" +
-                                $"Priority: {task.Priority}\n" +
-                                $"Project: {task.ProjectName}\n" +
-                                $"Assigned To: {task.AssignedToName}\n" +
-                                $"Deadline: {task.Deadline}";
-
-            MessageBox.Show(taskDetails, "Task Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Show task details in the entry form in view mode
+            var frm = new FrmEntryTask("View Tugas", _FormMode.View, task, _controller);
+            frm.ShowDialog();
         }
 
         private void UpdateRowNumbers()
@@ -404,93 +357,222 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             {
                 e.Graphics.FillRectangle(new SolidBrush(dgvTask.DefaultCellStyle.BackColor), e.CellBounds);
 
-                // Define button dimensions
-                int totalButtons = 5; // View, Edit, Delete, Log, View Log
-                int buttonWidth = e.CellBounds.Width / totalButtons;
-                int buttonHeight = e.CellBounds.Height;
+                // Total buttons: allowed actions + View Log (removed the Log button that was for adding logs)
+                int totalButtons = _allowActions.Count + 1;
 
-                // Draw View button with light blue background
-                Rectangle viewRect = new Rectangle(e.CellBounds.Left, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightBlue))
+                // If there are no allowed actions, only show View Log button
+                if (_allowActions.Count == 0)
                 {
-                    e.Graphics.FillRectangle(brush, viewRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, viewRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "View",
-                    e.CellStyle.Font,
-                    viewRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    int buttonWidth = e.CellBounds.Width; // Only View Log button
+                    int buttonHeight = e.CellBounds.Height;
 
-                // Draw Edit button with light green background
-                Rectangle editRect = new Rectangle(e.CellBounds.Left + buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightGreen))
-                {
-                    e.Graphics.FillRectangle(brush, editRect);
+                    // Draw View Log button with light cyan background
+                    Rectangle viewLogRect = new Rectangle(e.CellBounds.Left, e.CellBounds.Top, buttonWidth, buttonHeight);
+                    using (Brush brush = new SolidBrush(Color.LightCyan))
+                    {
+                        e.Graphics.FillRectangle(brush, viewLogRect);
+                    }
+                    ControlPaint.DrawBorder(e.Graphics, viewLogRect, Color.Gray, ButtonBorderStyle.Solid);
+                    TextRenderer.DrawText(
+                        e.Graphics,
+                        "View Log",
+                        e.CellStyle.Font,
+                        viewLogRect,
+                        Color.Black,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
                 }
-                ControlPaint.DrawBorder(e.Graphics, editRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Edit",
-                    e.CellStyle.Font,
-                    editRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                else
+                {
+                    int buttonWidth = e.CellBounds.Width / totalButtons;
+                    int buttonHeight = e.CellBounds.Height;
 
-                // Draw Delete button with light coral background
-                Rectangle deleteRect = new Rectangle(e.CellBounds.Left + buttonWidth * 2, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightCoral))
-                {
-                    e.Graphics.FillRectangle(brush, deleteRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, deleteRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Delete",
-                    e.CellStyle.Font,
-                    deleteRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    // Draw allowed action buttons (view, edit, delete)
+                    for (int i = 0; i < _allowActions.Count; i++)
+                    {
+                        string action = _allowActions[i];
+                        Rectangle rect = new Rectangle(e.CellBounds.Left + i * buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
+                        Color bgColor = Color.LightGray;
 
-                // Draw Log button with light yellow background
-                Rectangle logRect = new Rectangle(e.CellBounds.Left + buttonWidth * 3, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightYellow))
-                {
-                    e.Graphics.FillRectangle(brush, logRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, logRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Log",
-                    e.CellStyle.Font,
-                    logRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                        switch (action)
+                        {
+                            case "view": bgColor = Color.LightBlue; break;
+                            case "edit": bgColor = Color.LightGreen; break;
+                            case "delete": bgColor = Color.LightCoral; break;
+                        }
 
-                // Draw View Log button with light cyan background
-                Rectangle viewLogRect = new Rectangle(e.CellBounds.Left + buttonWidth * 4, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightCyan))
-                {
-                    e.Graphics.FillRectangle(brush, viewLogRect);
+                        using (Brush brush = new SolidBrush(bgColor))
+                        {
+                            e.Graphics.FillRectangle(brush, rect);
+                        }
+
+                        ControlPaint.DrawBorder(e.Graphics, rect, Color.Gray, ButtonBorderStyle.Solid);
+                        TextRenderer.DrawText(
+                            e.Graphics,
+                            action.Substring(0, 1).ToUpper() + action.Substring(1),
+                            e.CellStyle.Font,
+                            rect,
+                            Color.Black,
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                        );
+                    }
+
+                    // Draw View Log button with light cyan background
+                    Rectangle viewLogRect = new Rectangle(e.CellBounds.Left + _allowActions.Count * buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
+                    using (Brush brush = new SolidBrush(Color.LightCyan))
+                    {
+                        e.Graphics.FillRectangle(brush, viewLogRect);
+                    }
+                    ControlPaint.DrawBorder(e.Graphics, viewLogRect, Color.Gray, ButtonBorderStyle.Solid);
+                    TextRenderer.DrawText(
+                        e.Graphics,
+                        "View Log",
+                        e.CellStyle.Font,
+                        viewLogRect,
+                        Color.Black,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
                 }
-                ControlPaint.DrawBorder(e.Graphics, viewLogRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "View Log",
-                    e.CellStyle.Font,
-                    viewLogRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
 
                 e.Handled = true;
             }
+        }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (!canCreate())
+            {
+                MessageBox.Show("Anda tidak memiliki izin untuk menambah tugas.", "Akses Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var frm = new FrmEntryTask("Tambah Tugas", _FormMode.Create, _controller, _projectIdFilter);
+            frm.OnCreate += OnCreateEventHandler;
+            frm.ShowDialog();
+        }
+
+        private void UcTask_Load(object sender, EventArgs e)
+        {
+            lbProjectName.Text = "Task - " + _projectNameFilter;
+
+            // Initialize search textbox
+            txtSearch.Text = "Cari nama tugas...";
+            txtSearch.ForeColor = Color.Gray;
+
+            // Hide add button if user doesn't have create permission
+            btnAdd.Visible = canCreate();
+        }
+
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtSearch.Text == "Cari nama tugas...")
+            {
+                txtSearch.Text = "";
+                txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Text = "Cari nama tugas...";
+                txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            // Avoid placeholder text
+            if (txtSearch.Text == "Cari nama tugas...") return;
+
+            string searchTerm = txtSearch.Text.ToLower();
+            PerformSearch(searchTerm);
+        }
+
+        private void PerformSearch(string searchTerm)
+        {
+            // Clear all existing rows to prevent duplicates
+            dgvTask.Rows.Clear();
+
+            // Filter tasks based on search term with null checks
+            var filteredTasks = tasks.Where(t =>
+                string.IsNullOrEmpty(searchTerm) || // Show all if search term is empty
+                (t.Title != null && t.Title.ToLower().Contains(searchTerm)) ||
+                (t.Description != null && t.Description.ToLower().Contains(searchTerm)) ||
+                (t.Status != null && t.Status.ToLower().Contains(searchTerm)) ||
+                (t.Priority != null && t.Priority.ToLower().Contains(searchTerm)) ||
+                (t.ProjectName != null && t.ProjectName.ToLower().Contains(searchTerm)) ||
+                (t.AssignedToName != null && t.AssignedToName.ToLower().Contains(searchTerm)) ||
+                (t.Deadline != null && t.Deadline.ToString().ToLower().Contains(searchTerm))
+            ).ToList();
+
+            // Add filtered tasks to the DataGridView
+            foreach (var task in filteredTasks)
+            {
+                int rowIndex = dgvTask.Rows.Add();
+                var row = dgvTask.Rows[rowIndex];
+
+                // Set the row number based on its position in the filtered list
+                row.Cells["No"].Value = (rowIndex + 1).ToString();
+                row.Cells["Title"].Value = task.Title ?? "";
+                row.Cells["Description"].Value = task.Description ?? "";
+                row.Cells["Status"].Value = task.Status ?? "";
+                row.Cells["Priority"].Value = task.Priority ?? "";
+                row.Cells["Project"].Value = task.ProjectName ?? "";
+                row.Cells["AssignedTo"].Value = task.AssignedToName ?? "";
+                row.Cells["Deadline"].Value = task.Deadline?.ToString() ?? "";
+            }
+
+            // Update row numbers to ensure they are sequential after filtering
+            UpdateRowNumbers();
+        }
+
+        private bool canView()
+        {
+            return true; // Everyone can view tasks
+        }
+
+        private bool canEdit()
+        {
+            // Only the task owner or admin can edit
+            return true;
+        }
+
+        private bool canDelete()
+        {
+            // Only the task owner or admin can delete
+            return _userRole == "Admin" || _userRole == "Project Manager";
+        }
+
+        private bool canCreate()
+        {
+            // Users with certain roles can create tasks
+            return _userRole == "Admin" || _userRole == "Project Manager";
+        }
+
+        private void AllowActionByRole()
+        {
+            _allowActions = new List<string>();
+
+            if (canView()) _allowActions.Add("view");
+            if (canEdit()) _allowActions.Add("edit");
+            if (canDelete()) _allowActions.Add("delete");
+            // Note: Create action is typically handled by a button outside the grid
+        }
+
+        private void ViewTaskLog(int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex >= tasks.Count)
+            {
+                MessageBox.Show("Invalid task selection");
+                return;
+            }
+
+            var task = tasks[rowIndex];
+
+            // Open the log viewer form for this task
+            var frm = new FrmLogViewer(task.Id, task.Title);
+            frm.ShowDialog();
         }
     }
 }

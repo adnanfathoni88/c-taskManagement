@@ -119,6 +119,9 @@ namespace PerpustakaanAppMVC.View
 
                 flowSidebar.Controls.Add(btn);
             }
+
+            // Load Dashboard as default view when form loads
+            LoadUserControl(new UcDashboard());
         }
         private void TaskButton_Click(object sender, EventArgs e)
         {

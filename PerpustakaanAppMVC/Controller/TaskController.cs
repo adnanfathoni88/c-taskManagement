@@ -50,12 +50,67 @@ namespace PerpustakaanAppMVC.Controller
             return _repository.GetByProjectId(projectId);
         }
 
-        public int GetTotalTasks(string userId = null)
+        public int GetTotalTasks(int userId, string role)
         {
             using (var context = new Model.Context.DbContext())
             {
                 var _repo = new TaskRepository(context);
-                return _repo.CountTasksByUserId(userId);
+
+                return _repo.CountTasksByRole(userId, role);
+            }
+        }
+
+        public int GetTotalTasksAssignedToUser(string userId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.CountTasksAssignedToUser(userId);
+            }
+        }
+
+        public Dictionary<string, int> GetTaskCountByStatus(string userId = null)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.GetTaskCountByStatus(userId);
+            }
+        }
+
+        public Dictionary<string, int> GetTaskCountByStatusForProjectManager(int userId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.GetTaskCountByStatusForProjectManager(userId);
+            }
+        }
+
+        public List<TaskItem> GetTasksByProjectCreator(int userId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.GetTasksByProjectCreator(userId);
+            }
+        }
+
+        public List<TaskItem> GetTasksAssignedToUser(int userId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.GetTasksByAssignedUser(userId.ToString());
+            }
+        }
+
+        public List<TaskItem> GetTasksByRole(int userId, string role, int projectId)
+        {
+            using (var context = new Model.Context.DbContext())
+            {
+                var _repo = new TaskRepository(context);
+                return _repo.GetTasksByRole(userId, role, projectId);
             }
         }
     }

@@ -14,13 +14,6 @@ using System.Windows.Forms;
 namespace PerpustakaanAppMVC.View.ProjectView
 {
 
-    public enum _FormMode
-    {
-        Create,
-        Update,
-        View
-    }
-
     // delegte 
     public delegate void CreateUpdateEventHandler(Project project);
 
@@ -33,8 +26,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
         private bool _isNewData = true;
         private Project _project;
         private int _userLoginId;
-        private _FormMode _mode;
-
+        private string _mode;
 
         public FrmEntryProject()
         {
@@ -42,14 +34,30 @@ namespace PerpustakaanAppMVC.View.ProjectView
             InitializeComponent();
         }
 
-        public FrmEntryProject(string title, _FormMode _mode, Project project = null) : this()
+        public FrmEntryProject(string title, string mode, Project project = null) : this()
         {
             this.Text = title;
             loadStatus();
 
-            _isNewData = (_mode == _FormMode.Create);
+            _isNewData = (mode == "create");
             if (project != null) { loadUserData(project); }
-            if (_mode == _FormMode.View) { setViewMode(); }
+
+            // set label form
+            switch (mode)
+            {
+                case "create":
+                    lbForm.Text = "Tambah Project";
+                    break;
+                case "update":
+                    lbForm.Text = "Edit Project";
+                    break;
+                case "view":
+                    lbForm.Text = "Lihat Project";
+                    setViewMode();
+                    break;
+            }
+
+            this._mode = mode;
         }
 
         private void setViewMode()
@@ -74,7 +82,16 @@ namespace PerpustakaanAppMVC.View.ProjectView
             txtDeskripsi.Text = project.Deskripsi;
             dateStart.Value = project.StartDate;
             dateEnd.Value = project.EndDate;
-            //cmbStatus.SelectedIndex = project.Status;
+            // Set the status in the combobox
+            int statusIndex = cmbStatus.Items.IndexOf(project.Status);
+            if (statusIndex >= 0)
+            {
+                cmbStatus.SelectedIndex = statusIndex;
+            }
+            else
+            {
+                cmbStatus.SelectedIndex = 0; // Default to first item if status not found
+            }
         }
 
         private void loadStatus()
@@ -86,9 +103,41 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
+            // Validate project name
+            if (string.IsNullOrWhiteSpace(txtNama.Text))
+            {
+                MessageBox.Show("Nama project harus diisi.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check if project name already exists (for Create mode or Update mode when name changed)
+            if (_mode == "create" || (_project != null && _project.Nama != txtNama.Text))
+            {
+
+                Project existingProject = null;
+                if (_mode == "create")
+                {
+                    existingProject = _controller.GetByName(txtNama.Text);
+                }
+                else if (_project != null)
+                {
+                    // For update mode, exclude the current project from the check
+                    existingProject = _controller.GetByNameExcludeId(txtNama.Text, _project.Id);
+                }
+
+                if (existingProject != null)
+                {
+                    MessageBox.Show("Nama project sudah digunakan. Silakan gunakan nama yang berbeda.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
             try
             {
-                if (_isNewData) _project = new Project();
+                // Only create a new project object if we're in Create mode
+                if (_mode == "create") { _project = new Project(); }
+
+                // Set the project properties regardless of mode
                 _project.Nama = txtNama.Text;
                 _project.Deskripsi = txtDeskripsi.Text;
                 _project.StartDate = dateStart.Value;
@@ -96,11 +145,14 @@ namespace PerpustakaanAppMVC.View.ProjectView
                 _project.Status = cmbStatus.SelectedItem.ToString();
                 _project.CreatedBy = _userLoginId;
 
-                int result = _isNewData ? _controller.Create(_project) : _controller.Update(_project);
+                // Only set CreatedBy for new projects, keep the original ID for updates
+                if (_mode == "create") { _project.CreatedBy = _userLoginId; }
+
+                int result = _mode == "create" ? _controller.Create(_project) : _controller.Update(_project);
 
                 if (result > 0)
                 {
-                    if (_isNewData)
+                    if (_mode == "create")
                     {
                         OnCreate?.Invoke(_project);
                     }
@@ -110,17 +162,33 @@ namespace PerpustakaanAppMVC.View.ProjectView
                     }
                     this.Close();
                 }
-                else
-                {
-                    MessageBox.Show("Gagal menyimpan data project.");
-                }
-
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                // Check for specific database constraint violations
+                if (ex.Message.Contains("UNIQUE constraint failed") || ex.Message.Contains("duplicate"))
+                {
+                    MessageBox.Show("Nama project sudah digunakan. Silakan gunakan nama yang berbeda.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+        }
+
+        private void FrmEntryProject_Load(object sender, EventArgs e)
+        {
+
+            if (_mode == "update" || _mode == "view")
+            {
+                txtNama.Text = _project.Nama;
+                txtDeskripsi.Text = _project.Deskripsi;
+                dateStart.Value = _project.StartDate;
+                dateEnd.Value = _project.EndDate;
+                cmbStatus.SelectedItem = _project.Status;
+            }
+
 
         }
     }

@@ -12,6 +12,13 @@ using System.Windows.Forms;
 
 namespace PerpustakaanAppMVC.View.UserView
 {
+    public enum _FormMode
+    {
+        Create,
+        Update,
+        View
+    }
+
     public delegate void ResetEventHandler(User user);
     public partial class FrmReset : Form
     {
@@ -20,6 +27,8 @@ namespace PerpustakaanAppMVC.View.UserView
 
         private UserController _controller;
 
+        private _FormMode _mode;
+
         private User user;
 
         public FrmReset()
@@ -27,15 +36,17 @@ namespace PerpustakaanAppMVC.View.UserView
             InitializeComponent();
         }
 
-        public FrmReset(string title, User obj) : this()
+        public FrmReset(string title, _FormMode mode, User obj) : this()
         {
             this.Text = title;
+            _mode = mode;
             user = obj;
         }
 
-        public FrmReset(string title, User obj, UserController controller) : this()
+        public FrmReset(string title, _FormMode mode, User obj, UserController controller) : this()
         {
             this.Text = title;
+            _mode = mode;
             user = obj;
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
         }

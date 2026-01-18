@@ -86,5 +86,24 @@ namespace PerpustakaanAppMVC.Controller
                 return result;
             }
         }
+
+        public bool IsRoleInUse(int roleId)
+        {
+            using (var context = new DbContext())
+            {
+                _repository = new RoleRepository(context);
+                return _repository.IsRoleInUse(roleId);
+            }
+        }
+
+        public Role GetByName(string roleName)
+        {
+            using (var context = new DbContext())
+            {
+                _repository = new RoleRepository(context);
+                var allRoles = _repository.ReadAll();
+                return allRoles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
+            }
+        }
     }
 }

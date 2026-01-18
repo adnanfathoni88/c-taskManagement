@@ -127,5 +127,19 @@ namespace PerpustakaanAppMVC.Controller
                 return null; // Invalid credentials
             }
         }
+
+        public User GetByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException("Email is required");
+            }
+
+            using (var context = new DbContext())
+            {
+                var _repo = new UserRepository(context);
+                return _repo.GetByEmail(email);
+            }
+        }
     }
 }

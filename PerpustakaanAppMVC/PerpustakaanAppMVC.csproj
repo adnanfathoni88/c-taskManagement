@@ -136,12 +136,6 @@
     <Compile Include="View\TaskViewMain\FrmEntryTask.Designer.cs">
       <DependentUpon>FrmEntryTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\TaskViewMain\FrmTaskByProject.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\TaskViewMain\FrmTaskByProject.Designer.cs">
-      <DependentUpon>FrmTaskByProject.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\TaskViewMain\UcTask.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -203,8 +197,14 @@
     <EmbeddedResource Include="View\RoleView\UcRole1.resx">
       <DependentUpon>UcRole1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\TaskViewMain\FrmEntryLog.resx">
+      <DependentUpon>FrmEntryLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\TaskViewMain\FrmEntryTask.resx">
       <DependentUpon>FrmEntryTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\TaskViewMain\FrmLogViewer.resx">
+      <DependentUpon>FrmLogViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\TaskViewMain\UcTask.resx">
       <DependentUpon>UcTask.cs</DependentUpon>

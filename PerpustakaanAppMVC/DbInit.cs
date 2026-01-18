@@ -8,16 +8,16 @@ public static class DbInit
         {
             enableForeignKey(context);
 
+            // create table
             createRoleTable(context);
             createUserTable(context);
             createProjectTable(context);
             createTaskTable(context);
             createLogTable(context);
 
+            // seeder
             seedRole(context);
             seedUser(context);
-            seedProject(context);
-            seedTask(context);
         }
     }
 
@@ -129,8 +129,7 @@ public static class DbInit
             (1, 'Admin'),
             (2, 'Project Manager'),
             (3, 'Developer'),
-            (4, 'Tester'),
-            (5, 'Viewer');
+            (4, 'Tester');
             ";
             cmd.ExecuteNonQuery();
         }
@@ -148,33 +147,6 @@ public static class DbInit
             (4, 'PM1', 'pm@gmail.com', 'pm123', 1, 2),
             (5, 'PM2', 'pm2@gmail.com', 'pm2123', 1, 2);
             ";
-            cmd.ExecuteNonQuery();
-        }
-    }
-
-    private static void seedProject(DbContext context)
-    {
-        using (var cmd = context.Conn.CreateCommand())
-        {
-            cmd.CommandText = @"
-            INSERT OR REPLACE INTO Projects (id, nama, deskripsi, status, start_date, end_date, created_by) VALUES
-            (1, 'Website Development', 'Develop company website', 'Active', '2023-01-01', '2023-06-30', 5),
-            (2, 'Mobile App', 'Create mobile application', 'Active', '2023-02-01', '2023-08-31', 4),
-            (3, 'Database Migration', 'Migrate legacy database', 'Inactive', '2022-11-01', '2023-01-31', 5);
-            ";
-            cmd.ExecuteNonQuery();
-        }
-    }
-
-    private static void seedTask(DbContext context)
-    {
-        using (var cmd = context.Conn.CreateCommand())
-        {
-            cmd.CommandText = @"
-            INSERT OR REPLACE INTO Tasks (id, title, description, status, priority, project_id, assigned_to, deadline) VALUES
-            (1, 'Design Homepage', 'Create homepage mockup', 'Pending', 'High', 1, 2, '2023-02-15'),
-            (2, 'Setup Database', 'Configure database schema', 'In Progress', 'Medium', 1, 3, '2023-01-30'),
-            (3, 'API Integration', 'Integrate REST API', 'Completed', 'High', 2, 2, '2023-03-30')";
             cmd.ExecuteNonQuery();
         }
     }

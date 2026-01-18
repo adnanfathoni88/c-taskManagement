@@ -12,6 +12,13 @@ using System.Windows.Forms;
 
 namespace PerpustakaanAppMVC.View.RoleView
 {
+    public enum _FormMode
+    {
+        Create,
+        Update,
+        View
+    }
+
     public delegate void CreateUpdateEventHandler(Role role);
     public partial class FrmEntryRole : Form
     {
@@ -22,7 +29,7 @@ namespace PerpustakaanAppMVC.View.RoleView
 
         private RoleController _controller;
 
-        private bool isNewData = true;
+        private _FormMode _mode;
 
         private Role role;
 
@@ -31,31 +38,60 @@ namespace PerpustakaanAppMVC.View.RoleView
             InitializeComponent();
         }
 
-        public FrmEntryRole(string title, RoleController controller) : this()
+        public FrmEntryRole(string title, _FormMode mode, RoleController controller) : this()
         {
             this.Text = title;
+            _mode = mode;
             _controller = controller;
+
+            if (_mode == _FormMode.View) { setViewMode(); }
         }
 
-        public FrmEntryRole(string title, Role obj, RoleController controller) : this()
+        public FrmEntryRole(string title, _FormMode mode, Role obj, RoleController controller) : this()
         {
             this.Text = title;
+            _mode = mode;
             _controller = controller;
-            isNewData = false;
             role = obj;
             txtName.Text = role.Name;
+
+            if (_mode == _FormMode.View) { setViewMode(); }
+        }
+
+        private void setViewMode()
+        {
+            txtName.ReadOnly = true;
+            btnSimpan.Visible = false;
         }
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-            if (isNewData) role = new Role();
+            // Validate role name
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Nama role harus diisi.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Check if role name already exists (for Create mode or Update mode when name changed)
+            if (_mode == _FormMode.Create || (role != null && !role.Name.Equals(txtName.Text, StringComparison.OrdinalIgnoreCase)))
+            {
+                var existingRole = _controller.GetByName(txtName.Text);
+                if (existingRole != null)
+                {
+                    MessageBox.Show("Nama role sudah digunakan. Silakan gunakan nama yang berbeda.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (_mode == _FormMode.Create) role = new Role();
 
             role.Name = txtName.Text;
             int result = 0;
 
             try
             {
-                if (isNewData)
+                if (_mode == _FormMode.Create)
                 {
                     result = _controller.Create(role);
                     if (result > 0)
@@ -78,7 +114,15 @@ namespace PerpustakaanAppMVC.View.RoleView
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error");
+                // Check for specific database constraint violations
+                if (ex.Message.Contains("UNIQUE constraint failed") || ex.Message.Contains("duplicate"))
+                {
+                    MessageBox.Show("Nama role sudah digunakan. Silakan gunakan nama yang berbeda.", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Terjadi kesalahan: " + ex.Message, "Error");
+                }
             }
         }
 
