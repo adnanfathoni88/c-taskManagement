@@ -53,15 +53,13 @@ namespace PerpustakaanAppMVC.Controller
             }
         }
 
-        public List<Project> GetAllProjects(string id = null)
+        public List<Project> GetAllProjects(string role, string id = null)
         {
-
-            MessageBox.Show("controller" + id);
 
             using (var context = new Model.Context.DbContext())
             {
                 var _repo = new ProjectRepository(context);
-                return _repo.ReadAll(id);
+                return _repo.ReadAll(role, id);
             }
         }
 

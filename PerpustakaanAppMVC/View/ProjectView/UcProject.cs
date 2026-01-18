@@ -19,14 +19,21 @@ namespace PerpustakaanAppMVC.View.ProjectView
         private ProjectController _controller = new ProjectController();
         private List<Project> projects = new List<Project>();
         private int _editingIndex = -1;
+        private int _userLoginId;
+        private string _userRole;
+        private List<string> _allowActions;
 
         // Event to notify parent form to load UcTask
         public event Action<int, string> LoadTaskViewRequested;
 
         public UcProject()
         {
+            _userLoginId = Session.SessionManager.GetCurrentUserId();
+            _userRole = Session.SessionManager.GetCurrentUserRole();
+
             InitializeComponent();
             InitDataGridView();
+            AllowActionByRole();
         }
 
         private void InitDataGridView()
@@ -38,6 +45,13 @@ namespace PerpustakaanAppMVC.View.ProjectView
             dgvProject.AllowUserToDeleteRows = false;
             dgvProject.MultiSelect = false;
             dgvProject.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // **Set background color header**
+            dgvProject.EnableHeadersVisualStyles = false; 
+            dgvProject.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#3C467B"); // warna latar belakang
+            dgvProject.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml("#FFFFFF"); // warna teks
+            dgvProject.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+
 
             // Add columns
             var noColumn = new DataGridViewTextBoxColumn();
@@ -90,6 +104,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
             actionColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             actionColumn.Width = 200; // Width to accommodate 4 buttons (50x4)
             actionColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             dgvProject.Columns.Add(actionColumn);
 
             // Event handler for cell clicks
@@ -102,13 +117,15 @@ namespace PerpustakaanAppMVC.View.ProjectView
             dgvProject.RowTemplate.Height = 20;
 
             LoadProjects();
+
+            txtSearch.Text = "Cari nama project...";
+            txtSearch.ForeColor = Color.Gray;
         }
 
         private void LoadProjects()
         {
             dgvProject.Rows.Clear();
-            projects = _controller.GetAllProjects();
-
+            projects = _controller.GetAllProjects(_userRole, _userLoginId.ToString());
             foreach (var project in projects)
             {
                 // Add a new row with values
@@ -122,13 +139,6 @@ namespace PerpustakaanAppMVC.View.ProjectView
                 row.Cells["Status"].Value = project.Status;
                 row.Cells["Deskripsi"].Value = project.Deskripsi;
             }
-        }
-
-        private void btnTambah_Click(object sender, EventArgs e)
-        {
-            var frm = new FrmEntryProject("Tambah Project");
-            frm.OnCreate += OnCreateEventHandler;
-            frm.ShowDialog();
         }
 
         private void OnCreateEventHandler(Project project)
@@ -188,46 +198,6 @@ namespace PerpustakaanAppMVC.View.ProjectView
             DeleteProject(index);
         }
 
-        private void DgvProject_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Check if the click was on the "Action" column
-            if (e.ColumnIndex == dgvProject.Columns["Action"].Index && e.RowIndex >= 0)
-            {
-                // Calculate which button was clicked based on mouse position
-                var cellRect = dgvProject.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                int totalButtons = 4; // View, Edit, Delete, Task
-                int buttonWidth = cellRect.Width / totalButtons; // Divide cell width by number of buttons
-
-                // Get mouse position relative to the cell
-                Point mousePos = dgvProject.PointToClient(Control.MousePosition);
-
-                // Calculate which button region was clicked
-                int relativeX = mousePos.X - cellRect.Left;
-
-                if (relativeX < buttonWidth) // View button
-                {
-                    // Get the corresponding project data
-                    var project = projects[e.RowIndex];
-                    ShowProjectData(project);
-                }
-                else if (relativeX < buttonWidth * 2) // Edit button
-                {
-                    // Handle edit button click
-                    EditProject(e.RowIndex);
-                }
-                else if (relativeX < buttonWidth * 3) // Delete button
-                {
-                    // Handle delete button click
-                    DeleteProject(e.RowIndex);
-                }
-                else // Task button
-                {
-                    // Handle task button click
-                    ShowTaskModal(e.RowIndex);
-                }
-            }
-        }
-
         private void EditProject(int rowIndex)
         {
             if (rowIndex < 0 || rowIndex >= projects.Count)
@@ -239,7 +209,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
             _editingIndex = rowIndex;
             var project = projects[_editingIndex];
 
-            var frm = new FrmEntryProject("Edit Project", project);
+            var frm = new FrmEntryProject("Edit Project", _FormMode.Update, project);
             frm.OnUpdate += OnUpdateEventHandler;
             frm.ShowDialog();
         }
@@ -289,16 +259,8 @@ namespace PerpustakaanAppMVC.View.ProjectView
 
         private void ShowProjectData(Project project)
         {
-            // Show project details in a message box
-            string projectDetails = $"Project Details:\n\n" +
-                                    $"ID: {project.Id}\n" +
-                                    $"Name: {project.Nama}\n" +
-                                    $"Start Date: {project.StartDate}\n" +
-                                    $"End Date: {project.EndDate}\n" +
-                                    $"Status: {project.Status}\n" +
-                                    $"Description: {project.Deskripsi}";
-
-            MessageBox.Show(projectDetails, "Project Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var frm = new FrmEntryProject("View Project", _FormMode.View, project);
+            frm.ShowDialog();
         }
 
         private void UpdateRowNumbers()
@@ -309,83 +271,184 @@ namespace PerpustakaanAppMVC.View.ProjectView
             }
         }
 
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (txtSearch.Text == "Cari nama project...")
+            {
+                txtSearch.Text = "";
+                txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Text = "Cari nama project...";
+                txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
+            // hindari placeholder text
+            if (txtSearch.Text == "Cari nama project...") return;
+
+            string searchTerm = txtSearch.Text.ToLower();
+            dgvProject.Rows.Clear();
+
+            // filter
+            var filteredProjects = projects.Where(p =>
+                p.Nama.ToLower().Contains(searchTerm) ||
+                p.Deskripsi.ToLower().Contains(searchTerm) ||
+                p.Status.ToLower().Contains(searchTerm)
+            ).ToList();
+
+            foreach (var project in filteredProjects)
+            {
+                int rowIndex = dgvProject.Rows.Add();
+                var row = dgvProject.Rows[rowIndex];
+                row.Cells["No"].Value = (rowIndex + 1).ToString();
+                row.Cells["Nama"].Value = project.Nama;
+                row.Cells["StartDate"].Value = project.StartDate.ToShortDateString();
+                row.Cells["EndDate"].Value = project.EndDate.ToShortDateString();
+                row.Cells["Status"].Value = project.Status;
+                row.Cells["Deskripsi"].Value = project.Deskripsi;
+            }
+        }
+
+        private void btnTambah_Click_1(object sender, EventArgs e)
+        {
+            var frm = new FrmEntryProject("Tambah Project", _FormMode.Create);
+            frm.OnCreate += OnCreateEventHandler;
+            frm.ShowDialog();
+
+        }
+
+        private void UcProject_Load(object sender, EventArgs e)
+        {
+            string role = Session.SessionManager.GetCurrentUserRole();
+            var allowedRoles = new List<string> { "Admin", "Project Manager" };
+
+            if (!allowedRoles.Contains(role))
+            {
+                btnTambah.Visible = false;
+            }
+        }
+
+
+        private bool canEdit()
+        {
+            return _userRole == "Admin" || _userRole == "Project Manager";
+        }
+
+        private bool canDelete()
+        {
+            return _userRole == "Admin" || _userRole == "Project Manager";
+        }
+
+        private bool canView()
+        {
+            return true;
+        }
+
+        private bool canTask()
+        {
+            return true;
+        }
+
+        private void AllowActionByRole()
+        {
+            _allowActions = new List<string>();
+
+            if (canView()) _allowActions.Add("view");
+            if (canEdit()) _allowActions.Add("edit");
+            if (canDelete()) _allowActions.Add("delete");
+            if (canTask()) _allowActions.Add("task");
+        }
+
+
         private void DgvProject_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.ColumnIndex >= 0 && dgvProject.Columns[e.ColumnIndex].Name == "Action" && e.RowIndex >= 0)
             {
                 e.Graphics.FillRectangle(new SolidBrush(dgvProject.DefaultCellStyle.BackColor), e.CellBounds);
 
-                // Define button dimensions
-                int totalButtons = 4; // View, Edit, Delete, Task
+                int totalButtons = _allowActions.Count; // tombol sesuai akses
+                if (totalButtons == 0) return; // kalau gak ada akses
+
                 int buttonWidth = e.CellBounds.Width / totalButtons;
                 int buttonHeight = e.CellBounds.Height;
 
-                // Draw View button with light blue background
-                Rectangle viewRect = new Rectangle(e.CellBounds.Left, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightBlue))
+                for (int i = 0; i < totalButtons; i++)
                 {
-                    e.Graphics.FillRectangle(brush, viewRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, viewRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "View",
-                    e.CellStyle.Font,
-                    viewRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    string action = _allowActions[i];
+                    Rectangle rect = new Rectangle(e.CellBounds.Left + i * buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
+                    Color bgColor = Color.LightGray;
 
-                // Draw Edit button with light green background
-                Rectangle editRect = new Rectangle(e.CellBounds.Left + buttonWidth, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightGreen))
-                {
-                    e.Graphics.FillRectangle(brush, editRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, editRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Edit",
-                    e.CellStyle.Font,
-                    editRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    switch (action)
+                    {
+                        case "view": bgColor = Color.LightBlue; break;
+                        case "edit": bgColor = Color.LightGreen; break;
+                        case "delete": bgColor = Color.LightCoral; break;
+                        case "task": bgColor = Color.LightYellow; break;
+                    }
 
-                // Draw Delete button with light coral background
-                Rectangle deleteRect = new Rectangle(e.CellBounds.Left + buttonWidth * 2, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightCoral))
-                {
-                    e.Graphics.FillRectangle(brush, deleteRect);
-                }
-                ControlPaint.DrawBorder(e.Graphics, deleteRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Delete",
-                    e.CellStyle.Font,
-                    deleteRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
+                    using (Brush brush = new SolidBrush(bgColor))
+                    {
+                        e.Graphics.FillRectangle(brush, rect);
+                    }
 
-                // Draw Task button with light yellow background
-                Rectangle taskRect = new Rectangle(e.CellBounds.Left + buttonWidth * 3, e.CellBounds.Top, buttonWidth, buttonHeight);
-                using (Brush brush = new SolidBrush(Color.LightYellow))
-                {
-                    e.Graphics.FillRectangle(brush, taskRect);
+                    ControlPaint.DrawBorder(e.Graphics, rect, Color.Gray, ButtonBorderStyle.Solid);
+                    TextRenderer.DrawText(
+                        e.Graphics,
+                        action.Substring(0, 1).ToUpper() + action.Substring(1),
+                        e.CellStyle.Font,
+                        rect,
+                        Color.Black,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                    );
                 }
-                ControlPaint.DrawBorder(e.Graphics, taskRect, Color.Gray, ButtonBorderStyle.Solid);
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    "Task",
-                    e.CellStyle.Font,
-                    taskRect,
-                    Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
 
                 e.Handled = true;
             }
         }
+
+        private void DgvProject_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dgvProject.Columns["Action"].Index && e.RowIndex >= 0)
+            {
+                var cellRect = dgvProject.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                Point mousePos = dgvProject.PointToClient(Control.MousePosition);
+                int relativeX = mousePos.X - cellRect.Left;
+
+                int totalButtons = _allowActions.Count;
+                int buttonWidth = cellRect.Width / totalButtons;
+
+                int clickedIndex = relativeX / buttonWidth;
+                if (clickedIndex < 0 || clickedIndex >= totalButtons) return;
+
+                string action = _allowActions[clickedIndex];
+                var project = projects[e.RowIndex];
+
+                switch (action)
+                {
+                    case "view":
+                        ShowProjectData(project);
+                        break;
+                    case "edit":
+                        EditProject(e.RowIndex);
+                        break;
+                    case "delete":
+                        DeleteProject(e.RowIndex);
+                        break;
+                    case "task":
+                        ShowTaskModal(e.RowIndex);
+                        break;
+                }
+            }
+        }
+
     }
 }

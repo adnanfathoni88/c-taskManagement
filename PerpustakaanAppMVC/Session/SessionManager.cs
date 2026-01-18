@@ -42,5 +42,10 @@ namespace PerpustakaanAppMVC.Session
         {
             return IsLoggedIn ? CurrentUser.RoleName : string.Empty;
         }
+
+        public static bool IsAdmin()
+        {
+            return IsLoggedIn && CurrentUser.RoleName == "Admin" ? true : false;
+        }
     }
 }

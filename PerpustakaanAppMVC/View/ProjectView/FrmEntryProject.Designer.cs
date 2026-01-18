@@ -154,6 +154,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtNama);
             this.Name = "FrmEntryProject";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmEntryProject";
             this.ResumeLayout(false);
             this.PerformLayout();

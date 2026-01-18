@@ -21,24 +21,27 @@ namespace PerpustakaanAppMVC.Model.Repository
 
         public int Create(Project project)
         {
-            string sql = @"INSERT INTO Projects (nama, deskripsi, start_date, end_date) VALUES (@nama, @deskripsi, @start_date, @end_date);";
+            string sql = @"INSERT INTO Projects (nama, deskripsi, status ,start_date, end_date, created_by) VALUES (@nama, @deskripsi, @status, @start_date, @end_date, @created_by);";
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@nama", project.Nama);
                 cmd.Parameters.AddWithValue("@deskripsi", project.Deskripsi);
+                cmd.Parameters.AddWithValue("@status", project.Status);
                 cmd.Parameters.AddWithValue("@start_date", project.StartDate);
                 cmd.Parameters.AddWithValue("@end_date", project.EndDate);
+                cmd.Parameters.AddWithValue("@created_by", project.CreatedBy);
                 return cmd.ExecuteNonQuery();
             }
         }
 
         public int Update(Project project)
         {
-            string sql = @"UPDATE Projects SET nama = @nama, deskripsi = @deskripsi, start_date = @start_date, end_date = @end_date WHERE id = @id;";
+            string sql = @"UPDATE Projects SET nama = @nama, deskripsi = @deskripsi, status = @status, start_date = @start_date, end_date = @end_date WHERE id = @id;";
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@nama", project.Nama);
                 cmd.Parameters.AddWithValue("@deskripsi", project.Deskripsi);
+                cmd.Parameters.AddWithValue("@status", project.Status);
                 cmd.Parameters.AddWithValue("@start_date", project.StartDate);
                 cmd.Parameters.AddWithValue("@end_date", project.EndDate);
                 cmd.Parameters.AddWithValue("@id", project.Id);
@@ -56,25 +59,31 @@ namespace PerpustakaanAppMVC.Model.Repository
             }
         }
 
-        public List<Project> ReadAll(string id = null)
+        public List<Project> ReadAll(string role, string id = null)
         {
             List<Project> list = new List<Project>();
 
-            string sql = @"SELECT id, nama, deskripsi, status, start_date, end_date 
-                   FROM Projects ";
+            string sql = "";
 
-            // kondisi ada id
-            if (!string.IsNullOrEmpty(id))
+            // jika admin
+            switch (role.ToLower())
             {
-                MessageBox.Show("readall" + id);
-                sql += " WHERE id = @id ";
+                case "project manager":
+                    sql = "SELECT * FROM Projects WHERE created_by = @id";
+                    break;
+                case "developer":
+                    sql = "SELECT p.* FROM Projects p JOIN Tasks t ON p.id = t.project_id WHERE t.assigned_to = @id";
+                    break;
+                default:
+                    sql = "SELECT * FROM Projects";
+                    break;
             }
 
             sql += " ORDER BY nama;";
 
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
-                if (!string.IsNullOrEmpty(id))
+                if (role != "admin")
                 {
                     cmd.Parameters.AddWithValue("@id", id);
                 }
@@ -103,7 +112,6 @@ namespace PerpustakaanAppMVC.Model.Repository
         {
             int total = 0;
             string sql = "SELECT COUNT(*) FROM Projects";
-            // kondisi ada userId
             if (!string.IsNullOrEmpty(userId))
             {
                 sql += " WHERE created_by = @userId";

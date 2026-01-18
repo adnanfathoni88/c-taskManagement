@@ -63,9 +63,9 @@ namespace PerpustakaanAppMVC.View
             // 
             this.flowSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(123)))));
             this.flowSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowSidebar.Location = new System.Drawing.Point(0, 70);
+            this.flowSidebar.Location = new System.Drawing.Point(0, 91);
             this.flowSidebar.Name = "flowSidebar";
-            this.flowSidebar.Size = new System.Drawing.Size(240, 316);
+            this.flowSidebar.Size = new System.Drawing.Size(240, 295);
             this.flowSidebar.TabIndex = 5;
             // 
             // panelFooter
@@ -145,17 +145,17 @@ namespace PerpustakaanAppMVC.View
             this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelLogo.Location = new System.Drawing.Point(0, 0);
             this.panelLogo.Name = "panelLogo";
-            this.panelLogo.Padding = new System.Windows.Forms.Padding(0, 14, 0, 0);
-            this.panelLogo.Size = new System.Drawing.Size(240, 70);
+            this.panelLogo.Padding = new System.Windows.Forms.Padding(0, 24, 0, 0);
+            this.panelLogo.Size = new System.Drawing.Size(240, 91);
             this.panelLogo.TabIndex = 0;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::PerpustakaanAppMVC.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 14);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(240, 56);
+            this.pictureBox1.Size = new System.Drawing.Size(240, 67);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -165,6 +165,7 @@ namespace PerpustakaanAppMVC.View
             this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContent.Location = new System.Drawing.Point(240, 0);
             this.panelContent.Name = "panelContent";
+            this.panelContent.Padding = new System.Windows.Forms.Padding(20, 24, 20, 0);
             this.panelContent.Size = new System.Drawing.Size(560, 450);
             this.panelContent.TabIndex = 3;
             // 
@@ -176,8 +177,11 @@ namespace PerpustakaanAppMVC.View
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelContent);
             this.Controls.Add(this.panelSidebar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FrmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.panelSidebar.ResumeLayout(false);
             this.panelFooter.ResumeLayout(false);

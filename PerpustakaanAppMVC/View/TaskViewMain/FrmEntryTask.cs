@@ -63,7 +63,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
         {
             // Load projects
             var projectController = new ProjectController();
-            var projects = projectController.GetAllProjects();
+            var projects = projectController.GetAllProjects("admin"); // test
             cmbProject.DataSource = projects;
             cmbProject.DisplayMember = "Nama";
             cmbProject.ValueMember = "Id";

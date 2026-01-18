@@ -53,6 +53,7 @@ namespace PerpustakaanAppMVC.View.Dashboard
 
                 lbProyek.Text = countProjects.ToString();
                 lbTask.Text = countTasks.ToString();
+                lbTask2.Text = countTasks.ToString();
 
 
                 MessageBox.Show("Total Projects: " + countProjects, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);

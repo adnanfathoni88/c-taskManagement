@@ -1,5 +1,6 @@
 ﻿using PerpustakaanAppMVC.Controller;
 using PerpustakaanAppMVC.Model.Entity;
+using PerpustakaanAppMVC.Session;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,13 @@ using System.Windows.Forms;
 namespace PerpustakaanAppMVC.View.ProjectView
 {
 
+    public enum _FormMode
+    {
+        Create,
+        Update,
+        View
+    }
+
     // delegte 
     public delegate void CreateUpdateEventHandler(Project project);
 
@@ -24,20 +32,39 @@ namespace PerpustakaanAppMVC.View.ProjectView
         private ProjectController _controller = new ProjectController();
         private bool _isNewData = true;
         private Project _project;
+        private int _userLoginId;
+        private _FormMode _mode;
 
 
         public FrmEntryProject()
         {
+            _userLoginId = SessionManager.GetCurrentUserId();
             InitializeComponent();
         }
 
-        public FrmEntryProject(string title, Project project = null) : this()
+        public FrmEntryProject(string title, _FormMode _mode, Project project = null) : this()
         {
             this.Text = title;
             loadStatus();
 
-            _isNewData = (project == null);
-            if (!_isNewData) loadUserData(project);
+            _isNewData = (_mode == _FormMode.Create);
+            if (project != null) { loadUserData(project); }
+            if (_mode == _FormMode.View) { setViewMode(); }
+        }
+
+        private void setViewMode()
+        {
+            txtNama.ReadOnly = true;
+            txtNama.BackColor = Color.White;
+            txtDeskripsi.ReadOnly = true;
+            txtDeskripsi.BackColor = Color.White;
+            dateStart.Enabled = false;
+            dateStart.ForeColor = Color.White;
+            dateEnd.Enabled = false;
+            dateEnd.ForeColor = Color.White;
+            cmbStatus.Enabled = false;
+            cmbStatus.BackColor = Color.White;
+            btnSimpan.Visible = false;
         }
 
         private void loadUserData(Project project)
@@ -67,6 +94,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
                 _project.StartDate = dateStart.Value;
                 _project.EndDate = dateEnd.Value;
                 _project.Status = cmbStatus.SelectedItem.ToString();
+                _project.CreatedBy = _userLoginId;
 
                 int result = _isNewData ? _controller.Create(_project) : _controller.Update(_project);
 
