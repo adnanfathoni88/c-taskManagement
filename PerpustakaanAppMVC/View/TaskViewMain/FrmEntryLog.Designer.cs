@@ -1,4 +1,4 @@
-namespace PerpustakaanAppMVC.View.TaskViewMain
+namespace TWEEKLE.View.TaskViewMain
 {
     partial class FrmEntryLog
     {
@@ -46,7 +46,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Location = new System.Drawing.Point(3, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 16);
             this.label1.TabIndex = 0;
@@ -57,18 +57,18 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             this.cmbAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAction.FormattingEnabled = true;
-            this.cmbAction.Location = new System.Drawing.Point(138, 4);
+            this.cmbAction.Location = new System.Drawing.Point(136, 8);
             this.cmbAction.Name = "cmbAction";
-            this.cmbAction.Size = new System.Drawing.Size(259, 24);
+            this.cmbAction.Size = new System.Drawing.Size(261, 24);
             this.cmbAction.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 46);
+            this.label2.Location = new System.Drawing.Point(3, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 16);
+            this.label2.Size = new System.Drawing.Size(36, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "User";
             // 
@@ -77,18 +77,18 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             this.cmbUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbUser.FormattingEnabled = true;
-            this.cmbUser.Location = new System.Drawing.Point(138, 42);
+            this.cmbUser.Location = new System.Drawing.Point(136, 48);
             this.cmbUser.Name = "cmbUser";
-            this.cmbUser.Size = new System.Drawing.Size(259, 24);
+            this.cmbUser.Size = new System.Drawing.Size(261, 24);
             this.cmbUser.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 84);
+            this.label3.Location = new System.Drawing.Point(3, 87);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 16);
+            this.label3.Size = new System.Drawing.Size(75, 16);
             this.label3.TabIndex = 4;
             this.label3.Text = "Description";
             // 
@@ -97,18 +97,18 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(138, 80);
+            this.txtDescription.Location = new System.Drawing.Point(136, 83);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(259, 60);
+            this.txtDescription.Size = new System.Drawing.Size(261, 24);
             this.txtDescription.TabIndex = 5;
             // 
             // btnSimpan
             // 
             this.btnSimpan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSimpan.Location = new System.Drawing.Point(241, 158);
+            this.btnSimpan.Location = new System.Drawing.Point(55, 153);
             this.btnSimpan.Name = "btnSimpan";
-            this.btnSimpan.Size = new System.Drawing.Size(75, 30);
+            this.btnSimpan.Size = new System.Drawing.Size(75, 24);
             this.btnSimpan.TabIndex = 6;
             this.btnSimpan.Text = "Simpan";
             this.btnSimpan.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             // btnBatal
             // 
             this.btnBatal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBatal.Location = new System.Drawing.Point(322, 158);
+            this.btnBatal.Location = new System.Drawing.Point(322, 117);
             this.btnBatal.Name = "btnBatal";
             this.btnBatal.Size = new System.Drawing.Size(75, 30);
             this.btnBatal.TabIndex = 7;
@@ -149,6 +149,7 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(400, 200);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -156,9 +157,9 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 172);
+            this.label4.Location = new System.Drawing.Point(136, 157);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 16);
+            this.label4.Size = new System.Drawing.Size(54, 16);
             this.label4.TabIndex = 8;
             this.label4.Text = "Task ID";
             // 
@@ -166,9 +167,9 @@ namespace PerpustakaanAppMVC.View.TaskViewMain
             // 
             this.lblTaskId.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTaskId.AutoSize = true;
-            this.lblTaskId.Location = new System.Drawing.Point(138, 172);
+            this.lblTaskId.Location = new System.Drawing.Point(3, 182);
             this.lblTaskId.Name = "lblTaskId";
-            this.lblTaskId.Size = new System.Drawing.Size(18, 16);
+            this.lblTaskId.Size = new System.Drawing.Size(20, 16);
             this.lblTaskId.TabIndex = 9;
             this.lblTaskId.Text = "ID";
             // 

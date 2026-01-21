@@ -1,4 +1,4 @@
-namespace PerpustakaanAppMVC.View.TaskViewMain
+namespace TWEEKLE.View.TaskViewMain
 {
     partial class UcTask
     {

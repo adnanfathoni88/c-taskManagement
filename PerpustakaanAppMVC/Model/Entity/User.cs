@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerpustakaanAppMVC.Model.Entity
+namespace TWEEKLE.Model.Entity
 {
     public class User
     {

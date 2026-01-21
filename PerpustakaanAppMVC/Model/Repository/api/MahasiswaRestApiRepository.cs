@@ -1,4 +1,4 @@
-﻿using PerpustakaanAppMVC.Model.Entity;
+﻿using TWEEKLE.Model.Entity;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
-namespace PerpustakaanAppMVC.Model.Repository.api
+namespace TWEEKLE.Model.Repository.api
 {
     public class MahasiswaRestApiRepository
     {

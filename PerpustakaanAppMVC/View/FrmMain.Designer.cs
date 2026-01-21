@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View
+namespace TWEEKLE.View
 {
     partial class FrmMain
     {
@@ -129,7 +129,7 @@ namespace PerpustakaanAppMVC.View
             this.btnLogout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLogout.FlatAppearance.BorderSize = 0;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogout.Image = global::PerpustakaanAppMVC.Properties.Resources.Group_12;
+            this.btnLogout.Image = global::TWEEKLE.Properties.Resources.Group_12;
             this.btnLogout.Location = new System.Drawing.Point(167, 3);
             this.btnLogout.Name = "btnLogout";
             this.tableLayoutPanel1.SetRowSpan(this.btnLogout, 2);
@@ -152,7 +152,7 @@ namespace PerpustakaanAppMVC.View
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = global::PerpustakaanAppMVC.Properties.Resources.logo;
+            this.pictureBox1.Image = global::TWEEKLE.Properties.Resources.logo;
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(240, 67);

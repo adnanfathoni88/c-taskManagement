@@ -1,6 +1,6 @@
 using System;
 
-namespace PerpustakaanAppMVC.Model.Entity
+namespace TWEEKLE.Model.Entity
 {
     public class Log
     {

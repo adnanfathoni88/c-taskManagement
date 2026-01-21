@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5C562D44-6132-4909-8B9B-CD3AA0C42171}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PerpustakaanAppMVC</RootNamespace>
-    <AssemblyName>PerpustakaanAppMVC</AssemblyName>
+    <RootNamespace>TWEEKLE</RootNamespace>
+    <AssemblyName>TWEEKLE</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tweekle-icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
@@ -58,7 +61,6 @@
     <Compile Include="BaseUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controller\MahasiswaController.cs" />
     <Compile Include="Controller\ProjectController.cs" />
     <Compile Include="Controller\RoleController.cs" />
     <Compile Include="Controller\LogController.cs" />
@@ -142,12 +144,6 @@
     <Compile Include="View\TaskViewMain\UcTask.Designer.cs">
       <DependentUpon>UcTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\Test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\Test.Designer.cs">
-      <DependentUpon>Test.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\UserView\FrmEntryUser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,9 +205,6 @@
     <EmbeddedResource Include="View\TaskViewMain\UcTask.resx">
       <DependentUpon>UcTask.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Test.resx">
-      <DependentUpon>Test.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\UserView\FrmEntryUser.resx">
       <DependentUpon>FrmEntryUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -240,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="tweekle-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

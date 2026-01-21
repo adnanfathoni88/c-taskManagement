@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerpustakaanAppMVC.Model.Entity
+namespace TWEEKLE.Model.Entity
 {
     public class Project
     {
@@ -15,5 +15,6 @@ namespace PerpustakaanAppMVC.Model.Entity
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int CreatedBy { get; set; }
+        public string CreatedByName { get; set; }
     }
 }

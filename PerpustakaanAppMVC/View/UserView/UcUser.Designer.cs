@@ -1,4 +1,4 @@
-namespace PerpustakaanAppMVC.View.UserView
+namespace TWEEKLE.View.UserView
 {
     partial class UcUser
     {

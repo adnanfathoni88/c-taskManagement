@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Management;
 using System.Windows.Forms;
-using PerpustakaanAppMVC.Model.Context;
-using PerpustakaanAppMVC.Model.Entity;
+using TWEEKLE.Model.Context;
+using TWEEKLE.Model.Entity;
 
 
-namespace PerpustakaanAppMVC.Model.Repository
+namespace TWEEKLE.Model.Repository
 {
     public class RoleRepository
     {

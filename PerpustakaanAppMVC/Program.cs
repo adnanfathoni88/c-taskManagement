@@ -1,11 +1,12 @@
-﻿using PerpustakaanAppMVC.View;
+﻿using TWEEKLE.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TWEEKLE.View;
 
-namespace PerpustakaanAppMVC
+namespace TWEEKLE
 {
     static class Program
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Session;
+using TWEEKLE.Controller;
+using TWEEKLE.Session;
 
-namespace PerpustakaanAppMVC.View
+namespace TWEEKLE.View
 {
     public partial class FrmLogin : Form
     {
@@ -77,7 +77,7 @@ namespace PerpustakaanAppMVC.View
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::PerpustakaanAppMVC.Properties.Resources.logo;
+            this.pictureBox1.Image = global::TWEEKLE.Properties.Resources.logo;
             this.pictureBox1.Location = new System.Drawing.Point(2, 147);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(273, 203);
@@ -159,7 +159,7 @@ namespace PerpustakaanAppMVC.View
             // 
             this.ClientSize = new System.Drawing.Size(801, 502);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmLogin";

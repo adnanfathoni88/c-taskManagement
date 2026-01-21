@@ -1,6 +1,6 @@
-using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Model.Entity;
-using PerpustakaanAppMVC.View.TaskViewMain;
+using TWEEKLE.Controller;
+using TWEEKLE.Model.Entity;
+using TWEEKLE.View.TaskViewMain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View.ProjectView
+namespace TWEEKLE.View.ProjectView
 {
     public partial class UcProject : BaseUserControl
     {
@@ -88,11 +88,18 @@ namespace PerpustakaanAppMVC.View.ProjectView
             statusColumn.FillWeight = 2;
             dgvProject.Columns.Add(statusColumn);
 
+            var createdByColumn = new DataGridViewTextBoxColumn();
+            createdByColumn.Name = "CreatedBy";
+            createdByColumn.HeaderText = "Created By";
+            createdByColumn.DataPropertyName = "CreatedByName";
+            createdByColumn.FillWeight = 2;
+            dgvProject.Columns.Add(createdByColumn);
+
             var deskripsiColumn = new DataGridViewTextBoxColumn();
             deskripsiColumn.Name = "Deskripsi";
             deskripsiColumn.HeaderText = "Deskripsi";
             deskripsiColumn.DataPropertyName = "Deskripsi";
-            deskripsiColumn.FillWeight = 4;
+            deskripsiColumn.FillWeight = 3; // Reduced from 4 to make room for CreatedBy column
             dgvProject.Columns.Add(deskripsiColumn);
 
             // Add single button column for all actions
@@ -279,7 +286,8 @@ namespace PerpustakaanAppMVC.View.ProjectView
             var filteredProjects = projects.Where(p =>
                 p.Nama.ToLower().Contains(searchTerm) ||
                 p.Deskripsi.ToLower().Contains(searchTerm) ||
-                p.Status.ToLower().Contains(searchTerm)
+                p.Status.ToLower().Contains(searchTerm) ||
+                p.CreatedByName.ToLower().Contains(searchTerm)
             ).ToList();
 
             foreach (var project in filteredProjects)
@@ -291,6 +299,7 @@ namespace PerpustakaanAppMVC.View.ProjectView
                 row.Cells["StartDate"].Value = project.StartDate.ToShortDateString();
                 row.Cells["EndDate"].Value = project.EndDate.ToShortDateString();
                 row.Cells["Status"].Value = project.Status;
+                row.Cells["CreatedBy"].Value = project.CreatedByName;
                 row.Cells["Deskripsi"].Value = project.Deskripsi;
             }
         }

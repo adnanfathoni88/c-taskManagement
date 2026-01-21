@@ -1,4 +1,4 @@
-﻿namespace PerpustakaanAppMVC.View.RoleView
+﻿namespace TWEEKLE.View.RoleView
 {
     partial class FrmEntryRole
     {

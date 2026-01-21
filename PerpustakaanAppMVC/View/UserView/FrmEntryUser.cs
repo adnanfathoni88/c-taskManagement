@@ -1,7 +1,7 @@
-﻿using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Model.Context;
-using PerpustakaanAppMVC.Model.Entity;
-using PerpustakaanAppMVC.Model.Repository;
+﻿using TWEEKLE.Controller;
+using TWEEKLE.Model.Context;
+using TWEEKLE.Model.Entity;
+using TWEEKLE.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View.UserView
+namespace TWEEKLE.View.UserView
 {
 
     public enum FormMode

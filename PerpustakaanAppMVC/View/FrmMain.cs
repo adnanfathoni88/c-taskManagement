@@ -1,9 +1,9 @@
-﻿using PerpustakaanAppMVC.Session;
-using PerpustakaanAppMVC.View.Dashboard;
-using PerpustakaanAppMVC.View.ProjectView;
-using PerpustakaanAppMVC.View.RoleView;
-using PerpustakaanAppMVC.View.TaskViewMain;
-using PerpustakaanAppMVC.View.UserView;
+﻿using TWEEKLE.Session;
+using TWEEKLE.View.Dashboard;
+using TWEEKLE.View.ProjectView;
+using TWEEKLE.View.RoleView;
+using TWEEKLE.View.TaskViewMain;
+using TWEEKLE.View.UserView;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View
+namespace TWEEKLE.View
 {
     public partial class FrmMain : Form
     {

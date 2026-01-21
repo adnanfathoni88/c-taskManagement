@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Reflection.Emit;
 
-namespace PerpustakaanAppMVC.Model.Context
+namespace TWEEKLE.Model.Context
 {
     public class DbContext : IDisposable
     {

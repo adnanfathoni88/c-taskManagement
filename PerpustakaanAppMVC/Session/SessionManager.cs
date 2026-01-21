@@ -1,7 +1,7 @@
-using PerpustakaanAppMVC.Model.Entity;
+using TWEEKLE.Model.Entity;
 using System;
 
-namespace PerpustakaanAppMVC.Session
+namespace TWEEKLE.Session
 {
     public static class SessionManager
     {

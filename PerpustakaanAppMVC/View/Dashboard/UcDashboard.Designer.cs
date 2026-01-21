@@ -1,4 +1,4 @@
-﻿namespace PerpustakaanAppMVC.View.Dashboard
+﻿namespace TWEEKLE.View.Dashboard
 {
     partial class UcDashboard
     {
@@ -140,7 +140,7 @@
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = global::PerpustakaanAppMVC.Properties.Resources.taskDetailIcon;
+            this.pictureBox4.Image = global::TWEEKLE.Properties.Resources.taskDetailIcon;
             this.pictureBox4.Location = new System.Drawing.Point(560, 36);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(81, 81);
@@ -219,8 +219,8 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.45324F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.65467F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(438, 695);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
@@ -239,7 +239,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Image = global::PerpustakaanAppMVC.Properties.Resources.projectIcon;
+            this.pictureBox3.Image = global::TWEEKLE.Properties.Resources.projectIcon;
             this.pictureBox3.Location = new System.Drawing.Point(273, 36);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(81, 81);
@@ -280,12 +280,12 @@
             this.panel1.Location = new System.Drawing.Point(3, 181);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(432, 162);
+            this.panel1.Size = new System.Drawing.Size(432, 151);
             this.panel1.TabIndex = 5;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::PerpustakaanAppMVC.Properties.Resources.taskIcon;
+            this.pictureBox2.Image = global::TWEEKLE.Properties.Resources.taskIcon;
             this.pictureBox2.Location = new System.Drawing.Point(273, 32);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(81, 81);

@@ -1,6 +1,6 @@
-using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Model.Entity;
-using PerpustakaanAppMVC.Session;
+using TWEEKLE.Controller;
+using TWEEKLE.Model.Entity;
+using TWEEKLE.Session;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View.TaskViewMain
+namespace TWEEKLE.View.TaskViewMain
 {
 
     public enum _FormMode

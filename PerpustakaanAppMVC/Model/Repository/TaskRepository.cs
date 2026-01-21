@@ -1,11 +1,11 @@
-﻿using PerpustakaanAppMVC.Model.Context;
-using PerpustakaanAppMVC.Model.Entity;
+﻿using TWEEKLE.Model.Context;
+using TWEEKLE.Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 
-namespace PerpustakaanAppMVC.Model.Repository
+namespace TWEEKLE.Model.Repository
 {
     public class TaskRepository
     {

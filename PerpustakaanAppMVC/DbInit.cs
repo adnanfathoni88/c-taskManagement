@@ -1,4 +1,4 @@
-﻿using PerpustakaanAppMVC.Model.Context;
+﻿using TWEEKLE.Model.Context;
 
 public static class DbInit
 {

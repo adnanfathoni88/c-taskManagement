@@ -8,11 +8,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Model.Entity;
-using PerpustakaanAppMVC.Session;
+using TWEEKLE.Controller;
+using TWEEKLE.Model.Entity;
+using TWEEKLE.Session;
 
-namespace PerpustakaanAppMVC.View.Dashboard
+namespace TWEEKLE.View.Dashboard
 {
     public partial class UcDashboard : BaseUserControl
     {

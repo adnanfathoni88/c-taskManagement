@@ -1,4 +1,4 @@
-﻿namespace PerpustakaanAppMVC.View.ProjectView
+﻿namespace TWEEKLE.View.ProjectView
 {
     partial class FrmEntryProject
     {

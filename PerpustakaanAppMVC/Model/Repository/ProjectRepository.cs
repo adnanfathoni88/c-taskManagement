@@ -1,5 +1,5 @@
-﻿using PerpustakaanAppMVC.Model.Context;
-using PerpustakaanAppMVC.Model.Entity;
+﻿using TWEEKLE.Model.Context;
+using TWEEKLE.Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.Model.Repository
+namespace TWEEKLE.Model.Repository
 {
     public class ProjectRepository
     {
@@ -70,17 +70,17 @@ namespace PerpustakaanAppMVC.Model.Repository
             switch (role.ToLower())
             {
                 case "project manager":
-                    sql = "SELECT * FROM Projects WHERE created_by = @id";
+                    sql = "SELECT p.*, u.name AS created_by_name FROM Projects p JOIN Users u ON p.created_by = u.id WHERE p.created_by = @id";
                     break;
                 case "developer":
-                    sql = "SELECT DISTINCT p.* FROM Projects p JOIN Tasks t ON p.id = t.project_id WHERE t.assigned_to = @id";
+                    sql = "SELECT DISTINCT p.*, u.name AS created_by_name FROM Projects p JOIN Users u ON p.created_by = u.id JOIN Tasks t ON p.id = t.project_id WHERE t.assigned_to = @id";
                     break;
                 default:
-                    sql = "SELECT * FROM Projects";
+                    sql = "SELECT p.*, u.name AS created_by_name FROM Projects p JOIN Users u ON p.created_by = u.id";
                     break;
             }
 
-            sql += " ORDER BY nama;";
+            sql += " ORDER BY p.nama;";
 
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
@@ -100,6 +100,8 @@ namespace PerpustakaanAppMVC.Model.Repository
                         project.Status = dtr["status"].ToString();
                         project.StartDate = Convert.ToDateTime(dtr["start_date"]);
                         project.EndDate = Convert.ToDateTime(dtr["end_date"]);
+                        project.CreatedBy = Convert.ToInt32(dtr["created_by"]);
+                        project.CreatedByName = dtr["created_by_name"].ToString();
 
                         list.Add(project);
                     }
@@ -150,7 +152,7 @@ namespace PerpustakaanAppMVC.Model.Repository
 
         public Project GetByName(string projectName)
         {
-            string sql = @"SELECT * FROM Projects WHERE nama = @name COLLATE NOCASE;";
+            string sql = @"SELECT p.*, u.name AS created_by_name FROM Projects p JOIN Users u ON p.created_by = u.id WHERE p.nama = @name COLLATE NOCASE;";
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@name", projectName);
@@ -168,6 +170,7 @@ namespace PerpustakaanAppMVC.Model.Repository
                             project.StartDate = Convert.ToDateTime(dtr["start_date"]);
                             project.EndDate = Convert.ToDateTime(dtr["end_date"]);
                             project.CreatedBy = Convert.ToInt32(dtr["created_by"]);
+                            project.CreatedByName = dtr["created_by_name"].ToString();
                             return project;
                         }
                     }
@@ -202,7 +205,7 @@ namespace PerpustakaanAppMVC.Model.Repository
 
         public Project GetByNameExcludeId(string projectName, int excludeId)
         {
-            string sql = @"SELECT * FROM Projects WHERE nama = @name COLLATE NOCASE AND id != @excludeId;";
+            string sql = @"SELECT p.*, u.name AS created_by_name FROM Projects p JOIN Users u ON p.created_by = u.id WHERE p.nama = @name COLLATE NOCASE AND p.id != @excludeId;";
             using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@name", projectName);
@@ -221,6 +224,7 @@ namespace PerpustakaanAppMVC.Model.Repository
                             project.StartDate = Convert.ToDateTime(dtr["start_date"]);
                             project.EndDate = Convert.ToDateTime(dtr["end_date"]);
                             project.CreatedBy = Convert.ToInt32(dtr["created_by"]);
+                            project.CreatedByName = dtr["created_by_name"].ToString();
                             return project;
                         }
                     }

@@ -1,13 +1,13 @@
-﻿using PerpustakaanAppMVC.Model.Context;
-using PerpustakaanAppMVC.Model.Entity;
-using PerpustakaanAppMVC.Model.Repository;
+﻿using TWEEKLE.Model.Context;
+using TWEEKLE.Model.Entity;
+using TWEEKLE.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerpustakaanAppMVC.Controller
+namespace TWEEKLE.Controller
 {
     public class RoleController
     {

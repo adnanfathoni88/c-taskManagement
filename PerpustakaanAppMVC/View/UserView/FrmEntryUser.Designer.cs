@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View.UserView
+namespace TWEEKLE.View.UserView
 {
     partial class FrmEntryUser
     {

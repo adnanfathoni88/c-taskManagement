@@ -1,5 +1,5 @@
-using PerpustakaanAppMVC.Controller;
-using PerpustakaanAppMVC.Model.Entity;
+using TWEEKLE.Controller;
+using TWEEKLE.Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Security;
 using System.Windows.Forms;
 
-namespace PerpustakaanAppMVC.View.RoleView
+namespace TWEEKLE.View.RoleView
 {
     public partial class UcRole1 : UserControl
     {
