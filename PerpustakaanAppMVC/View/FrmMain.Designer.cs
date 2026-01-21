@@ -129,7 +129,7 @@ namespace PerpustakaanAppMVC.View
             this.btnLogout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnLogout.FlatAppearance.BorderSize = 0;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogout.Image = global::PerpustakaanAppMVC.Properties.Resources.logout;
+            this.btnLogout.Image = global::PerpustakaanAppMVC.Properties.Resources.Group_12;
             this.btnLogout.Location = new System.Drawing.Point(167, 3);
             this.btnLogout.Name = "btnLogout";
             this.tableLayoutPanel1.SetRowSpan(this.btnLogout, 2);

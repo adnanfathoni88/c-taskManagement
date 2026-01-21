@@ -93,5 +93,15 @@ namespace PerpustakaanAppMVC.View.Dashboard
 
             return taskCounts;
         }
+
+        private void lbProyek_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
